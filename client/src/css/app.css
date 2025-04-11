@@ -1,24 +1,34 @@
-@import "./style.css";
+@import "./variables.css";
 
 * {
-	padding: 0;
-	margin: 0;
-	box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "JetBrains Mono", sans-serif;
+  font-size: 14px;
 }
 
 #portfolio {
-	min-height: 100vh;
-	display: grid;
+  min-height: 100vh;
 }
 
 a {
-	text-decoration: none;
-	color: inherit;
+  text-decoration: none;
+  color: inherit;
+}
+
+li {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  list-style: none;
 }
 
 input,
 button {
-	font: inherit;
-	border: none;
-	border-radius: none;
+  font: inherit;
+  border: none;
+  border-radius: none;
 }

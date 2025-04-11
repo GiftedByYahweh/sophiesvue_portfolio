@@ -30,4 +30,16 @@ export const routes = [
     path: RoutePaths.photo.path,
     component: () => import("@/pages/PhotoPage.vue"),
   },
+  {
+    path: RoutePaths.about.path,
+    component: () => import("@/pages/AboutPage.vue"),
+  },
+  {
+    path: RoutePaths.price.path,
+    component: () => import("@/pages/PricePage.vue"),
+  },
+  {
+    path: RoutePaths.portfolio.path,
+    component: () => import("@/pages/PortfolioPage.vue"),
+  },
 ]
