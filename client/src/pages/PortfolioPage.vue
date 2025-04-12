@@ -1,5 +1,7 @@
-<script setup></script>
+<script setup>
+  import AppPage from "@/components/shared/AppPage.vue"
+</script>
 
-<template>PortfolioPage</template>
+<template><AppPage>PortfolioPage</AppPage></template>
 
 <style scoped></style>

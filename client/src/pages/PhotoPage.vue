@@ -1,7 +1,9 @@
-<script setup></script>
+<script setup>
+  import AppPage from "@/components/shared/AppPage.vue"
+</script>
 
 <template>
-  <section>Photo Page</section>
+  <section><AppPage>Photo Page</AppPage></section>
 </template>
 
 <style scoped></style>

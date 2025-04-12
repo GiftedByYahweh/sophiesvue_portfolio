@@ -1,4 +1,5 @@
 <script setup>
+  import AppPage from "@/components/shared/AppPage.vue"
   import AppText from "@/components/shared/AppText.vue"
 </script>
 
@@ -22,6 +23,10 @@
         </div>
       </div>
     </div>
+
+    <AppPage>
+      <div>Hello</div>
+    </AppPage>
   </section>
 </template>
 

@@ -1,6 +1,6 @@
 <script setup>
   import { RoutePaths } from "@/router/routes"
-  import AppText from "../shared/AppText.vue"
+  import AppText from "@/components/shared/AppText.vue"
   import { computed } from "vue"
   import { useRoute } from "vue-router"
 
@@ -53,7 +53,15 @@
             </AppText>
           </li>
         </ul>
-        <AppText element="a" :variant="textColor" hover> inst → </AppText>
+        <AppText
+          element="a"
+          href="https://www.instagram.com/sophiesvue"
+          target="_blank"
+          :variant="textColor"
+          hover
+        >
+          inst →
+        </AppText>
       </nav>
     </div>
   </header>
@@ -65,9 +73,12 @@
     height: var(--header-height);
     padding: 45px;
     position: fixed;
+    display: flex;
+    justify-content: center;
   }
   .content {
-    max-width: 1325px;
+    width: 100%;
+    max-width: var(--max-content-width);
     display: flex;
     justify-content: space-between;
   }

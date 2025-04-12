@@ -1,5 +1,7 @@
-<script setup></script>
+<script setup>
+  import AppPage from "@/components/shared/AppPage.vue"
+</script>
 
-<template>PricePage</template>
+<template><AppPage>PricePage</AppPage></template>
 
 <style scoped></style>
