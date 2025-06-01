@@ -1,25 +1,21 @@
-import Fastify from "fastify";
+"use strict";
 
-const fastify = Fastify({
-    logger: true,
-});
+const path = require("node:path");
+const AutoLoad = require("@fastify/autoload");
 
-fastify.get("/", function (request, reply) {
-    reply.send({ hello: "world" });
-});
+const options = {};
 
-fastify.get("/tests", function (request, reply) {
-    reply.send({ hello: "asdfasdasdasdsda" });
-});
+module.exports = async function (fastify, opts) {
+  await fastify.register(AutoLoad, {
+    dir: path.join(__dirname, "plugins"),
+    options: Object.assign({}, opts),
+  });
 
-const start = async () => {
-    try {
-        await fastify.listen({ port: 3000 });
-        console.log("Server run");
-    } catch (err) {
-        fastify.log.error(err);
-        process.exit(1);
-    }
+  await fastify.register(AutoLoad, {
+    dir: path.join(__dirname, "routes"),
+    options: Object.assign({}, opts),
+    prefix: "/api",
+  });
 };
 
-start();
+module.exports.options = options;

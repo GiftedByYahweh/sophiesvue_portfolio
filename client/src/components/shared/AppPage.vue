@@ -6,7 +6,17 @@
 
 <style scoped>
   .page {
-    max-width: 1320px;
-    padding: 120px 45px 45px 45px;
+    max-width: calc(var(--max-content-width) + 90px);
+    padding: calc(var(--header-height) + 20px) 45px 45px 45px;
+    margin: auto;
+    display: grid;
+    grid-template-rows: auto;
+    min-height: 100vh;
+  }
+
+  @media screen and (max-width: 800px) {
+    .page {
+      padding: calc(var(--header-height) + 20px) 20px 45px 20px;
+    }
   }
 </style>

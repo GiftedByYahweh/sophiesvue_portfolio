@@ -3,10 +3,6 @@ export const RoutePaths = {
     name: "main",
     path: "/",
   },
-  photo: {
-    name: "photo",
-    path: "/photo",
-  },
   portfolio: {
     name: "portfolio",
     path: "/portfolio",
@@ -24,22 +20,22 @@ export const RoutePaths = {
 export const routes = [
   {
     path: RoutePaths.main.path,
+    name: RoutePaths.main.name,
     component: () => import("@/pages/MainPage.vue"),
   },
   {
-    path: RoutePaths.photo.path,
-    component: () => import("@/pages/PhotoPage.vue"),
-  },
-  {
     path: RoutePaths.about.path,
+    name: RoutePaths.about.name,
     component: () => import("@/pages/AboutPage.vue"),
   },
   {
     path: RoutePaths.price.path,
+    name: RoutePaths.price.name,
     component: () => import("@/pages/PricePage.vue"),
   },
   {
     path: RoutePaths.portfolio.path,
+    name: RoutePaths.portfolio.name,
     component: () => import("@/pages/PortfolioPage.vue"),
   },
 ]

@@ -1,0 +1,33 @@
+export const accountApi = (transport) => ({
+  login: (data) => transport.post("/login", data),
+  logout: () => transport.get("/logout"),
+})
+
+export const categoryApi = (transport) => ({
+  getAll: () => transport.get("/categories"),
+  getTitles: () => transport.get("/category-titles"),
+  create: (payload) => transport.post("/category", payload),
+  delete: (id) => transport.delete(`/category/${id}`),
+})
+
+export const collectionApi = (transport) => ({
+  getAll: (params) => transport.get(`/collections?${params}`),
+  getTitles: () => transport.get("/collection-titles"),
+  create: (payload) => transport.post("/collection", payload),
+  delete: (id) => transport.delete(`/collection/${id}`),
+})
+
+export const albumApi = (transport) => ({
+  getAll: (params) => transport.get(`/album?${params}`),
+  create: () => transport.post("/create"),
+})
+
+export const profileApi = (transport) => ({
+  getAll: () => transport.get(`/profile`),
+  create: () => transport.post("/create"),
+})
+
+export const priceApi = (transport) => ({
+  getAll: () => transport.get(`/price`),
+  create: (payload) => transport.post("/price", payload),
+})

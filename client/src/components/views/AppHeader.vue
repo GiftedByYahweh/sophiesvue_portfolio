@@ -3,6 +3,7 @@
   import AppText from "@/components/shared/AppText.vue"
   import { computed } from "vue"
   import { useRoute } from "vue-router"
+  import { INSTAGRAM_URL } from "@/utils/consts"
 
   const route = useRoute()
 
@@ -15,10 +16,10 @@
 </script>
 
 <template>
-  <header class="header">
+  <header class="header blur">
     <div class="content">
       <RouterLink :to="RoutePaths.main.path">
-        <img :src="`src/assets/${logoVariant}.svg`" alt="logo" />
+        <img :src="`/src/assets/${logoVariant}.svg`" alt="" />
       </RouterLink>
       <nav class="nav-block">
         <ul class="nav-list">
@@ -55,7 +56,7 @@
         </ul>
         <AppText
           element="a"
-          href="https://www.instagram.com/sophiesvue"
+          :href="INSTAGRAM_URL"
           target="_blank"
           :variant="textColor"
           hover
@@ -75,6 +76,7 @@
     position: fixed;
     display: flex;
     justify-content: center;
+    z-index: 1;
   }
   .content {
     width: 100%;
@@ -91,5 +93,14 @@
     display: flex;
     gap: 30px;
     list-style: none;
+  }
+  .blur {
+    backdrop-filter: blur(10px);
+  }
+
+  @media screen and (max-width: 800px) {
+    .header {
+      padding: 45px 20px;
+    }
   }
 </style>

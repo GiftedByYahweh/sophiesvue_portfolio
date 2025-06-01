@@ -7,12 +7,13 @@
 
   const {
     element = "p",
-    variant = "primary",
+    variant = "secondary",
     size = "m",
     textStyle,
     weight,
     align,
     uppercase,
+    underline,
     hover,
   } = defineProps({
     element: String,
@@ -22,6 +23,7 @@
     weight: String,
     align: String,
     uppercase: Boolean,
+    underline: Boolean,
     hover: Boolean,
   })
 
@@ -33,15 +35,14 @@
       textStyle && `text-${textStyle}`,
       align && `text-${align}`,
       uppercase && "text-uppercase",
+      underline && "text-underline",
       hover && "text-hover",
     ]
-      .filter(Boolean)
-      .join(" ")
   })
 </script>
 
 <template>
-  <component v-bind="$attrs" :is="element" :class="[additionalClasses]">
+  <component v-bind="$attrs" :is="element" :class="additionalClasses">
     <slot></slot>
   </component>
 </template>
@@ -59,6 +60,10 @@
   .text-m {
     font-size: 14px;
     line-height: 1.5;
+  }
+  .text-l {
+    font-size: 30px;
+    line-height: 1.2;
   }
   .text-title {
     font-family: "Inter", sans-serif;
@@ -79,6 +84,9 @@
   }
   .text-uppercase {
     text-transform: uppercase;
+  }
+  .text-underline {
+    text-decoration: underline;
   }
   .text-center {
     text-align: center;

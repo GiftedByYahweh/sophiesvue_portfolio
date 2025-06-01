@@ -1,0 +1,131 @@
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+li {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  list-style: none;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--neutral-color);
+  border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--accent-color);
+  border-radius: 0;
+}
+
+::selection {
+  background-color: var(--accent-color);
+  color: var(--secondary-color);
+}
+
+button {
+  cursor: pointer;
+  padding: 10px 30px;
+  border: 1px solid var(--accent-color);
+  opacity: 1;
+  transition: opacity 0.4s ease;
+  height: fit-content;
+
+  &.clear {
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+    border: none;
+  }
+  &.primary {
+    background: var(--accent-color);
+    color: var(--primary-color);
+  }
+  &.secondary {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+  }
+  &.close {
+    font-size: 25px;
+    cursor: pointer;
+    color: var(--primary-color);
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    padding: 0 9px;
+    border-radius: 50%;
+    background-color: var(--accent-color);
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+  &:hover {
+    opacity: 0.6;
+  }
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
+input {
+  border: 1px solid var(--secondary-color);
+  padding: 10px;
+  outline: none;
+  width: 100%;
+
+  &:focus {
+    border-color: var(--accent-color);
+  }
+}
+
+input[type="checkbox"] {
+  width: 25px;
+  height: 25px;
+  accent-color: var(--accent-color);
+  cursor: pointer;
+}
+
+textarea {
+  height: 100%;
+  resize: vertical;
+  border: 1px solid var(--secondary-color);
+  padding: 10px;
+
+  &:focus {
+    border-color: var(--accent-color);
+  }
+}
+
+select {
+  border: 1px solid var(--secondary-color);
+  padding: 10px;
+  outline: none;
+  width: 100%;
+
+  &:focus {
+    border-color: var(--accent-color);
+  }
+}
+
+option {
+  &:checked {
+    background-color: var(--accent-color);
+    color: var(--secondary-color);
+  }
+}

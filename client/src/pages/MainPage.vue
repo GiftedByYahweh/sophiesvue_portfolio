@@ -1,6 +1,30 @@
 <script setup>
   import AppPage from "@/components/shared/AppPage.vue"
+  import AppPhoto from "@/components/shared/AppPhoto.vue"
   import AppText from "@/components/shared/AppText.vue"
+
+  const photos = [
+    {
+      src: "src/assets/hor.jpg",
+      alt: "Photo 1",
+    },
+    {
+      src: "src/assets/main.jpg",
+      alt: "Photo 2",
+    },
+    {
+      src: "src/assets/main.jpg",
+      alt: "Photo 3",
+    },
+    {
+      src: "src/assets/hor.jpg",
+      alt: "Photo 4",
+    },
+    {
+      src: "src/assets/sq.jpeg",
+      alt: "Photo 5",
+    },
+  ]
 </script>
 
 <template>
@@ -8,29 +32,34 @@
     <div class="photo-container">
       <div class="title-container">
         <div class="title-block">
-          <AppText element="h1" size="title" weight="400">
+          <AppText element="h1" size="title" weight="400" variant="primary">
             <AppText
               element="span"
               size="title"
               text-style="italic"
+              variant="primary"
               weight="400"
             >
               SOPHIA
             </AppText>
             VITINENKO
           </AppText>
-          <AppText uppercase>based in kyiv</AppText>
+          <AppText uppercase variant="primary">based in kyiv</AppText>
         </div>
       </div>
     </div>
-
-    <AppPage>
-      <div>Hello</div>
+    <AppPage class="photo-grid">
+      <AppPhoto v-for="photo in photos" :src="photo.src" :alt="photo.alt" />
     </AppPage>
   </section>
 </template>
 
 <style scoped>
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
   .photo-container {
     display: flex;
     justify-content: center;

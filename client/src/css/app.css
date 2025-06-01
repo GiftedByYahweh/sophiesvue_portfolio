@@ -1,4 +1,6 @@
 @import "./variables.css";
+@import "./animations.css";
+@import "./ui.css";
 
 * {
   padding: 0;
@@ -9,26 +11,4 @@
 body {
   font-family: "JetBrains Mono", sans-serif;
   font-size: 14px;
-}
-
-#portfolio {
-  min-height: 100vh;
-}
-
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-li {
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  list-style: none;
-}
-
-input,
-button {
-  font: inherit;
-  border: none;
-  border-radius: none;
 }
