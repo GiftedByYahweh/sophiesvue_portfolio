@@ -26,7 +26,7 @@ module.exports = async function (fastify) {
       "collections"
     );
     const title = fields.title?.value;
-    const liked = fields.liked?.value;
+    const status = fields.status?.value;
     const categoryId = fields.categoryId?.value;
     const alreadyExist = await collectionsRepository(
       fastify.mongo.db
@@ -38,7 +38,7 @@ module.exports = async function (fastify) {
       title,
       photo: filePath,
       categoryId,
-      liked,
+      status,
       buffer: fileBuffer,
     });
     return { data: title, error: null };
@@ -48,5 +48,12 @@ module.exports = async function (fastify) {
     const { id } = req.params;
     await collectionsRepository(fastify.mongo.db).deleteById(id);
     return { data: true, error: null };
+  });
+
+  fastify.get("/favorite-collections", async function () {
+    const favorites = await collectionsRepository(
+      fastify.mongo.db
+    ).getFavorites();
+    return { data: favorites, error: null };
   });
 };

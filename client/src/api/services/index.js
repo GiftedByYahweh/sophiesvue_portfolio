@@ -12,6 +12,7 @@ export const categoryApi = (transport) => ({
 
 export const collectionApi = (transport) => ({
   getAll: (params) => transport.get(`/collections?${params}`),
+  getFavorites: () => transport.get("/favorite-collections?"),
   getTitles: () => transport.get("/collection-titles"),
   create: (payload) => transport.post("/collection", payload),
   delete: (id) => transport.delete(`/collection/${id}`),

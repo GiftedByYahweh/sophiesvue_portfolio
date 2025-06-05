@@ -7,6 +7,12 @@ export const fetchCollections = async (name) => {
   return response.data
 }
 
+export const fetchFavoriteCollections = async () => {
+  const response = await apiClient.collections.getFavorites()
+  if (!response.data) throw new Error(response.error)
+  return response.data
+}
+
 export const fetchCollectionTitles = async (name) => {
   const params = new URLSearchParams({ category: name })
   const response = await apiClient.collections.getTitles(params.toString())
@@ -14,10 +20,15 @@ export const fetchCollectionTitles = async (name) => {
   return response.data
 }
 
-export const createCollection = async ({ title, photo, liked, categoryId }) => {
+export const createCollection = async ({
+  title,
+  photo,
+  status,
+  categoryId,
+}) => {
   const formData = new FormData()
   formData.append("title", title)
-  formData.append("liked", liked)
+  formData.append("status", status)
   formData.append("file", photo)
   formData.append("categoryId", categoryId)
   const response = await apiClient.collections.create(formData)

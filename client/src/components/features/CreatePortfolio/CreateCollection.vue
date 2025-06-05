@@ -1,5 +1,5 @@
 <script setup>
-  import { ref } from "vue"
+  import { computed, ref } from "vue"
   import { useMutation, useQueryClient } from "@tanstack/vue-query"
   import { createCollection } from "@/services/collections"
   import AppPopup from "@/components/shared/AppPopup.vue"
@@ -16,6 +16,10 @@
   const portfolio = usePortfolioStore()
   const queryClient = useQueryClient()
 
+  const photoStatus = computed(() => {
+    return liked.value ? "liked" : "unliked"
+  })
+
   const onCreateSuccess = () => {
     queryClient.invalidateQueries({ queryKey: ["collections"] })
     title.value = ""
@@ -27,7 +31,7 @@
     mutationFn: () =>
       createCollection({
         title: title.value,
-        liked: liked.value,
+        status: photoStatus.value,
         photo: photosModel.value[0],
         categoryId: portfolio.currentCategoryId(route.query.category),
       }),

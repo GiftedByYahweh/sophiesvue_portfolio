@@ -1,30 +1,7 @@
 <script setup>
+  import FavoriteCollectionsList from "@/components/features/Portfolio/FavoriteCollectionsList.vue"
   import AppPage from "@/components/shared/AppPage.vue"
-  import AppPhoto from "@/components/shared/AppPhoto.vue"
   import AppText from "@/components/shared/AppText.vue"
-
-  const photos = [
-    {
-      src: "src/assets/hor.jpg",
-      alt: "Photo 1",
-    },
-    {
-      src: "src/assets/main.jpg",
-      alt: "Photo 2",
-    },
-    {
-      src: "src/assets/main.jpg",
-      alt: "Photo 3",
-    },
-    {
-      src: "src/assets/hor.jpg",
-      alt: "Photo 4",
-    },
-    {
-      src: "src/assets/sq.jpeg",
-      alt: "Photo 5",
-    },
-  ]
 </script>
 
 <template>
@@ -49,17 +26,12 @@
       </div>
     </div>
     <AppPage class="photo-grid">
-      <AppPhoto v-for="photo in photos" :src="photo.src" :alt="photo.alt" />
+      <FavoriteCollectionsList />
     </AppPage>
   </section>
 </template>
 
 <style scoped>
-  .photo-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-  }
   .photo-container {
     display: flex;
     justify-content: center;

@@ -16,11 +16,19 @@ module.exports.collectionsRepository = (mongo) => {
       });
       return collections.toArray();
     },
-    async create({ title, photo, liked, categoryId, buffer }) {
+    async getFavorites() {
+      const favorites = await collectionsModel
+        .find({
+          status: "liked",
+        })
+        .toArray();
+      return favorites;
+    },
+    async create({ title, photo, status, categoryId, buffer }) {
       const collection = await collectionsModel.insertOne({
         title: title,
         photo: photo,
-        liked: liked,
+        status: status,
         categoryId: new ObjectId(categoryId),
         createdAt: new Date(),
         buffer: buffer,
