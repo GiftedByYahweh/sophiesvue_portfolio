@@ -3,17 +3,15 @@
   import AppText from "@/components/shared/AppText.vue"
   import AppLoader from "@/components/shared/AppLoader.vue"
   import { computed } from "vue"
-  import { useQuery } from "@tanstack/vue-query"
-  import { fetchProfile } from "@/services/profile"
 
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["profile"],
-    queryFn: fetchProfile,
-    retry: false,
+  const { about, isLoading, error } = defineProps({
+    about: Object,
+    isLoading: Boolean,
+    error: String,
   })
 
   const instagramName = computed(() => {
-    const instUrl = new URL(data.value.inst)
+    const instUrl = new URL(about.inst)
     const userName = instUrl.pathname.split("/")[1]
     return userName
   })
@@ -22,10 +20,10 @@
 <template>
   <AppLoader v-if="isLoading"></AppLoader>
   <div v-else class="about-me">
-    <AppPhoto :src="data.photo" alt="Portfolio Photo" />
+    <AppPhoto :src="about.photo" alt="Portfolio Photo" />
     <div class="info">
       <div class="about">
-        <p class="formatted-text">{{ data.text }}</p>
+        <p class="formatted-text">{{ about.text }}</p>
       </div>
       <div class="contact">
         <AppText>To contact me you can write me to:</AppText>
@@ -33,7 +31,7 @@
           instagram -
           <AppText
             element="a"
-            :href="data.inst"
+            :href="about.inst"
             target="_blank"
             variant="accent"
             underline

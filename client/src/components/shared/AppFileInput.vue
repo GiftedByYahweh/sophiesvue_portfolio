@@ -1,27 +1,23 @@
 <script setup>
-  import { useTemplateRef } from "vue"
   import AppText from "./AppText.vue"
 
+  const { multiple = true } = defineProps({ multiple: Boolean })
   const model = defineModel({ default: [] })
 
-  const fileInputElement = useTemplateRef("fileInput")
-
-  const openFileSelectModal = () => fileInputElement.value?.click()
+  const addFiles = (fileList) => {
+    const newFiles = Array.from(fileList)
+    const result = multiple ? [...newFiles] : [newFiles[0]]
+    model.value = result
+  }
 
   const handleDrop = (event) => {
     const droppedFiles = event.dataTransfer?.files
     if (droppedFiles) addFiles(droppedFiles)
   }
 
-  const handleFileChange = (event) => {
-    const input = event.target
-    const selectedFiles = input.files
+  const handleMultipleFiles = (event) => {
+    const selectedFiles = event.target.files
     if (selectedFiles) addFiles(selectedFiles)
-  }
-
-  const addFiles = (fileList) => {
-    const newFiles = Array.from(fileList)
-    model.value = [...newFiles]
   }
 </script>
 
@@ -36,12 +32,12 @@
       <input
         ref="fileInput"
         type="file"
-        multiple
+        :multiple="multiple"
         name="file"
         id="fileInput"
         accept="image/*"
         class="hidden-input"
-        @change="handleFileChange"
+        @change="handleMultipleFiles"
       />
       <label for="fileInput" class="file-label">
         <AppText align="center">

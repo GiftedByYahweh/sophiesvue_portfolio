@@ -9,6 +9,7 @@
     isLoading,
     error,
     square,
+    portfolio,
   } = defineProps({
     data: Array,
     isLoading: Boolean,

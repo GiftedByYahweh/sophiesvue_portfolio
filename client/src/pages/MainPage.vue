@@ -1,5 +1,5 @@
 <script setup>
-  import FavoriteCollectionsList from "@/components/features/Portfolio/FavoriteCollectionsList.vue"
+  import { FavoriteCollectionsList } from "@/components/features/portfolio"
   import AppPage from "@/components/shared/AppPage.vue"
   import AppText from "@/components/shared/AppText.vue"
 </script>

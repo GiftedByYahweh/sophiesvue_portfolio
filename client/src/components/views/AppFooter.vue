@@ -2,7 +2,7 @@
   import { ref } from "vue"
   import { RoutePaths } from "@/router/routes"
   import AppText from "@/components/shared/AppText.vue"
-  import { AuthByName } from "@/components/features"
+  import { AuthByName } from "@/components/features/auth"
   import { useAuthStore } from "@/stores/auth"
   import { removeToken } from "@/utils/localStorage"
   import { INSTAGRAM_URL } from "@/utils/consts"

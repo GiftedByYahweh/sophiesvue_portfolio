@@ -45,7 +45,7 @@
       <input v-model="liked" type="checkbox" />
       <AppText>Mark as liked</AppText>
     </div>
-    <FileDrop v-model="photosModel" />
+    <FileDrop v-model="photosModel" multiple />
     <div class="btns">
       <button class="secondary" @click="onClose">Close</button>
       <div v-if="isLoading" class="loading-box">

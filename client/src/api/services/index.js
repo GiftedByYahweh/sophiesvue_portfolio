@@ -24,8 +24,8 @@ export const albumApi = (transport) => ({
 })
 
 export const profileApi = (transport) => ({
-  getAll: () => transport.get(`/profile`),
-  create: () => transport.post("/create"),
+  get: () => transport.get(`/profile`),
+  edit: () => transport.post("/edit"),
 })
 
 export const priceApi = (transport) => ({

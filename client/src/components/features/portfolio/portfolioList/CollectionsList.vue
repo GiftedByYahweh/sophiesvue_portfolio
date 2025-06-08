@@ -2,7 +2,7 @@
   import { useQuery, useMutation, useQueryClient } from "@tanstack/vue-query"
   import { delteteCollection, fetchCollections } from "@/services/collections"
   import { useRoute, useRouter } from "vue-router"
-  import { computed, onMounted, ref } from "vue"
+  import { computed, onMounted } from "vue"
   import { PhotoList, SwitcherContainer } from "@/components/widgets"
   import { usePortfolioStore } from "@/stores/portfolio"
   import { useTitles } from "@/composables/useTitles"

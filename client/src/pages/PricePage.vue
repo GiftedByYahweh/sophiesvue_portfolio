@@ -1,13 +1,12 @@
 <script setup>
-  import ManagePricePopup from "@/components/features/ManagePrice/ManagePricePopup.vue"
-  import PriceList from "@/components/features/Price/PriceList.vue"
+  import { PriceList, ManagePricePopup } from "@/components/features/price"
   import AppPage from "@/components/shared/AppPage.vue"
-  import AdminPanel from "@/components/widgets/AdminPanel/AdminPanel.vue"
+  import { AdminPanel } from "@/components/widgets"
   import { ref } from "vue"
 
   const pricePopup = ref({
     visible: false,
-    variant: 'add'
+    variant: "add",
   })
 
   const onPopupOpen = (val) => {
@@ -21,13 +20,20 @@
     <AdminPanel title="Manage Price">
       <template #actions>
         <div class="wrapper">
-          <button class="secondary" @click="onPopupOpen('add')">Add Price</button>
-          <button class="secondary" @click="onPopupOpen('edit')">Edit Price</button>
+          <button class="secondary" @click="onPopupOpen('add')">
+            Add Price
+          </button>
+          <button class="secondary" @click="onPopupOpen('edit')">
+            Edit Price
+          </button>
         </div>
       </template>
     </AdminPanel>
     <PriceList />
-    <ManagePricePopup v-model:visible="pricePopup.visible" :variant="pricePopup.variant" />
+    <ManagePricePopup
+      v-model:visible="pricePopup.visible"
+      :variant="pricePopup.variant"
+    />
   </AppPage>
 </template>
 

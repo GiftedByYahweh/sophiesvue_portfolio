@@ -11,12 +11,7 @@
 </script>
 
 <template>
-  <PhotoList
-    :data="data"
-    :is-loading="isLoading"
-    :error="error"
-    @on-delete="onDelete"
-  />
+  <PhotoList :data="data" :is-loading="isLoading" :error="error" />
 </template>
 
 <style scoped></style>

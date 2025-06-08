@@ -6,8 +6,10 @@
   import { computed, onMounted } from "vue"
   import AppLoader from "@/components/shared/AppLoader.vue"
   import { useTitles } from "@/composables/useTitles"
+  import { usePortfolioStore } from "@/stores/portfolio"
 
-  const { getCollections } = useTitles()
+  const { getCollectionTitles } = useTitles()
+  const portfolio = usePortfolioStore()
   const route = useRoute()
 
   const currentCollection = computed(() => {
@@ -17,11 +19,12 @@
   const { data, isLoading } = useQuery({
     queryKey: ["albumList", currentCollection.value],
     queryFn: () => fetchAlbum(currentCollection.value),
+    enabled: !!currentCollection.value,
     retry: false,
   })
 
   onMounted(() => {
-    getCollections()
+    getCollectionTitles()
   })
 </script>
 

@@ -1,6 +1,9 @@
 <script setup>
   import { ref } from "vue"
-  import { CategoriesList, CreateCategory } from "@/components/features"
+  import {
+    CategoriesList,
+    CreateCategory,
+  } from "@/components/features/portfolio"
   import { AdminPanel } from "@/components/widgets"
 
   const isVisible = ref(false)

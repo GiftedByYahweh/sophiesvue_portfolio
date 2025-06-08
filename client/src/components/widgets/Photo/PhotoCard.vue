@@ -3,8 +3,10 @@
   import AppPhoto from "@/components/shared/AppPhoto.vue"
   import AppText from "@/components/shared/AppText.vue"
   import { useAuthStore } from "@/stores/auth"
+  import { useRoute } from "vue-router"
+  import { RoutePaths } from "@/router/routes"
 
-  const API = import.meta.env.VITE_API_URL
+  const route = useRoute()
 
   const emit = defineEmits({
     click: null,
@@ -19,8 +21,8 @@
 
   const auth = useAuthStore()
 
-  const photoUrl = computed(() => {
-    return `${API}/${photo}`
+  const canDelete = computed(() => {
+    return auth.isAuth && route.path !== RoutePaths.main.path
   })
 
   const onDelete = () => {
@@ -31,10 +33,10 @@
 <template>
   <div class="card" @click="$emit('click')">
     <div class="photo-wrapper">
-      <AppPhoto class="photo" :src="photoUrl" :alt="title" :square="square" />
+      <AppPhoto class="photo" :src="photo" :alt="title" :square="square" />
     </div>
     <AppText v-if="title">{{ title }} →</AppText>
-    <button v-if="auth.isAuth" class="close" @click.stop="onDelete">
+    <button v-if="canDelete" class="close" @click.stop="onDelete">
       &times;
     </button>
   </div>

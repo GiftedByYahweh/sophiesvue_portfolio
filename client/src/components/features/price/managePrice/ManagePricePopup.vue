@@ -17,8 +17,6 @@
       component: EditPrice,
     },
   }
-
-  console.log(variant)
 </script>
 
 <template>

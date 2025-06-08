@@ -1,21 +1,28 @@
 <script setup>
   import { computed } from "vue"
 
+  const API = import.meta.env.VITE_API_URL
+
   const emit = defineEmits({
     onDelete: null,
   })
 
   const { photo } = defineProps({
-    photo: File,
+    photo: {
+      type: [File, String],
+    },
   })
 
   const photoUrl = computed(() => {
+    if (typeof photo === "string") return `${API}/${photo}`
     return URL.createObjectURL(photo)
   })
 
   const onDelete = (fileName) => {
     emit("onDelete", fileName)
   }
+
+  console.log(photo)
 </script>
 
 <template>

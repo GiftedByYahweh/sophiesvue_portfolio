@@ -7,6 +7,7 @@
 
   const MAX_CARDS_TO_SHOW = 3
 
+  const { multiple } = defineProps({ multiple: Boolean })
   const photosModel = defineModel()
 
   const visiblePopup = ref(false)
@@ -41,7 +42,7 @@
 
 <template>
   <div class="file-drop">
-    <AppFileInput v-model="photosModel" />
+    <AppFileInput v-model="photosModel" :multiple="multiple" />
     <div v-if="isListVisible" class="list">
       <FileCard
         v-for="photo in limitedPhotosToShow"

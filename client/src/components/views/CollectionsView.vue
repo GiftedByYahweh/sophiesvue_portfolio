@@ -1,6 +1,9 @@
 <script setup>
   import { ref } from "vue"
-  import { CollectionsList, CreateCollection } from "@/components/features"
+  import {
+    CollectionsList,
+    CreateCollection,
+  } from "@/components/features/portfolio"
   import { AdminPanel } from "@/components/widgets"
 
   const isVisible = ref(false)

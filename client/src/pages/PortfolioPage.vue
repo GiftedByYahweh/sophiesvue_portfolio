@@ -2,7 +2,7 @@
   import { computed } from "vue"
   import { useRoute } from "vue-router"
   import AppPage from "@/components/shared/AppPage.vue"
-  import { AlbumList } from "@/components/features"
+  import { AlbumList } from "@/components/features/portfolio"
   import CategoriesView from "@/components/views/CategoriesView.vue"
   import CollectionsView from "@/components/views/CollectionsView.vue"
 
