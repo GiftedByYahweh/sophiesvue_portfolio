@@ -1,6 +1,6 @@
 "use strict";
 
-const { comparePasswords } = require("../model/auth/domain/auth");
+const { comparePasswords } = require("../model/auth/infrastructure/hash");
 const {
   authRepository,
 } = require("../model/auth/infrastructure/authRepository");

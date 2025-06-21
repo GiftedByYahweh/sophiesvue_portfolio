@@ -2,7 +2,7 @@
 
 const {
   priceRepository,
-} = require("../model/profile/infrastructure/priceRepository");
+} = require("../model/price/infrastructure/priceRepository");
 const { fileLoader } = require("../model/fileLoader/infrastructure/fileUpload");
 const { checkIsUserAuth } = require("../model/auth/infrastructure/jwt");
 
@@ -14,11 +14,8 @@ module.exports = async function (fastify) {
 
   fastify.post("/price", async function (req, reply) {
     checkIsUserAuth(req, fastify.config.JWT_SECRET);
-    const { filePath, fields } = await fileLoader(req, "categories");
-    const price = fields.price?.value;
-    const description = JSON.parse(fields.description?.value);
-    const importantInfo = JSON.parse(fields.importantInfo?.value);
-    const category = fields.category?.value;
+    const { filePath, price, description, importantInfo, category } =
+      await fileLoader(req, "price");
     const priceExist = await priceRepository(fastify.mongo.db).findOne(
       category
     );
@@ -34,6 +31,20 @@ module.exports = async function (fastify) {
       description,
       price,
       photo: filePath,
+    });
+    return { data: profile, error: null };
+  });
+
+  fastify.put("/price", async function (req, reply) {
+    checkIsUserAuth(req, fastify.config.JWT_SECRET);
+    const { filePath, price, description, importantInfo, photo, category } =
+      await fileLoader(req, "price");
+    const profile = await priceRepository(fastify.mongo.db).update({
+      category,
+      importantInfo,
+      description,
+      price,
+      photo: filePath || photo,
     });
     return { data: profile, error: null };
   });

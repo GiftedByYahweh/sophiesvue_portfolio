@@ -21,9 +21,23 @@ module.exports.priceRepository = (mongo) => {
         importantInfo,
         photo,
         category,
-        createdAt: new Date(),
       });
       return newPrice;
+    },
+    async update({ price, description, importantInfo, photo, category }) {
+      const updated = await priceModel.findOneAndUpdate(
+        { category: category },
+        {
+          $set: {
+            price,
+            description,
+            importantInfo,
+            photo,
+            category,
+          },
+        }
+      );
+      return updated;
     },
   };
 };

@@ -21,11 +21,7 @@ module.exports = async function (fastify) {
 
   fastify.post("/category", async function (req, reply) {
     checkIsUserAuth(req, fastify.config.JWT_SECRET);
-    const { filePath, fields, fileBuffer } = await fileLoader(
-      req,
-      "categories"
-    );
-    const title = fields.title?.value;
+    const { filePath, title, fileBuffer } = await fileLoader(req, "categories");
     const alreadyExist = await categoryRepository(fastify.mongo.db).findByTitle(
       title
     );

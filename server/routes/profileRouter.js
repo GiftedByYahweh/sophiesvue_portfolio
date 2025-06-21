@@ -12,13 +12,14 @@ module.exports = async function (fastify) {
   });
 
   fastify.post("/profile", async function (req, reply) {
-    const { filePath, fields, fileBuffer } = await fileLoader(req, "profile");
-    const text = fields.text.value;
-    const inst = fields.inst.value;
+    const { filePath, text, inst, photo, fileBuffer } = await fileLoader(
+      req,
+      "profile"
+    );
     const profile = await profileRepository(fastify.mongo.db).edit({
       text,
       inst,
-      filePath,
+      filePath: filePath || photo,
       fileBuffer,
     });
     return { data: profile, error: null };

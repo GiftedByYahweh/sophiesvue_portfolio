@@ -21,13 +21,8 @@ module.exports = async function (fastify) {
   });
 
   fastify.post("/collection", async function (req, reply) {
-    const { filePath, fields, fileBuffer } = await fileLoader(
-      req,
-      "collections"
-    );
-    const title = fields.title?.value;
-    const status = fields.status?.value;
-    const categoryId = fields.categoryId?.value;
+    const { filePath, fileBuffer, title, status, categoryId } =
+      await fileLoader(req, "collections");
     const alreadyExist = await collectionsRepository(
       fastify.mongo.db
     ).findByTitle(title);
