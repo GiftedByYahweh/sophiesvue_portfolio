@@ -31,4 +31,5 @@ export const profileApi = (transport) => ({
 export const priceApi = (transport) => ({
   getAll: () => transport.get(`/price`),
   create: (payload) => transport.post("/price", payload),
+  edit: (payload) => transport.put("/price", payload),
 })

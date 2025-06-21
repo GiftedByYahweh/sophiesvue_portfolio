@@ -46,7 +46,7 @@
     <div v-if="isListVisible" class="list">
       <FileCard
         v-for="photo in limitedPhotosToShow"
-        :key="photo.name"
+        :key="photo"
         :photo="photo"
         @on-delete="deleteSelectedFileByName(photo.name)"
       />

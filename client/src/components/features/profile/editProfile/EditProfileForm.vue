@@ -24,10 +24,12 @@
 
   const onCreateSuccess = () => {
     queryClient.invalidateQueries({ queryKey: ["about"] })
+    emit("close")
   }
 
   const { mutateAsync, isPending, error } = useMutation({
-    mutationFn: () => editProfile(newInfo.value),
+    mutationFn: () =>
+      editProfile({ ...newInfo.value, photo: newInfo.value.photo[0] }),
     onSuccess: onCreateSuccess,
   })
 

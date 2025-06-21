@@ -3,6 +3,9 @@
   import AddPrice from "./AddPrice.vue"
   import EditPrice from "./EditPrice.vue"
 
+  const isVisible = defineModel("visible")
+  const priceToEdit = defineModel("edit")
+
   const { variant } = defineProps({
     variant: "add" | "edit",
   })
@@ -26,7 +29,11 @@
     class="price-popup"
   >
     <template #body="{ close }">
-      <Component :is="priceFeatures[variant].component" @close="close" />
+      <Component
+        v-model:edit="priceToEdit"
+        :is="priceFeatures[variant].component"
+        @close="close"
+      />
     </template>
   </AppPopup>
 </template>

@@ -21,8 +21,6 @@
   const onDelete = (fileName) => {
     emit("onDelete", fileName)
   }
-
-  console.log(photo)
 </script>
 
 <template>

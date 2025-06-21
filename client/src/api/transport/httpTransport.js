@@ -15,6 +15,18 @@ export const createTransport = (instance) => ({
     })
     return response.json()
   },
+  put: async (url, data) => {
+    const isFormData = data instanceof FormData
+    const payload = isFormData ? data : JSON.stringify(data)
+    const headers = {}
+    if (!isFormData) headers["Content-Type"] = "application/json"
+    const response = await instance(url, {
+      method: "PUT",
+      headers,
+      body: payload,
+    })
+    return response.json()
+  },
   delete: async (url) => {
     const response = await instance(url, {
       method: "DELETE",

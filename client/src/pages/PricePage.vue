@@ -4,6 +4,7 @@
   import { AdminPanel } from "@/components/widgets"
   import { ref } from "vue"
 
+  const priceToEdit = ref({})
   const pricePopup = ref({
     visible: false,
     variant: "add",
@@ -19,28 +20,14 @@
   <AppPage>
     <AdminPanel title="Manage Price">
       <template #actions>
-        <div class="wrapper">
-          <button class="secondary" @click="onPopupOpen('add')">
-            Add Price
-          </button>
-          <button class="secondary" @click="onPopupOpen('edit')">
-            Edit Price
-          </button>
-        </div>
+        <button class="secondary" @click="onPopupOpen('add')">Add Price</button>
       </template>
     </AdminPanel>
-    <PriceList />
+    <PriceList v-model:edit="priceToEdit" @edit-price="onPopupOpen('edit')" />
     <ManagePricePopup
       v-model:visible="pricePopup.visible"
+      v-model:edit="priceToEdit"
       :variant="pricePopup.variant"
     />
   </AppPage>
 </template>
-
-<style scoped>
-  .wrapper {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-</style>

@@ -2,8 +2,14 @@
   import AppPhoto from "@/components/shared/AppPhoto.vue"
   import AppText from "@/components/shared/AppText.vue"
   import { RoutePaths } from "@/router/routes"
+  import { useAuthStore } from "@/stores/auth"
   import { computed } from "vue"
   import { useRouter } from "vue-router"
+
+  const emit = defineEmits({
+    editPrice: null,
+  })
+  const priceToEdit = defineModel("edit")
 
   const { price, reverse, border } = defineProps({
     price: Object,
@@ -12,10 +18,7 @@
   })
 
   const router = useRouter()
-
-  const photoUrl = computed(() => {
-    return `${import.meta.env.VITE_API_URL}/${price.photo}`
-  })
+  const auth = useAuthStore()
 
   const moveToCategory = () => {
     router.push({
@@ -23,23 +26,44 @@
       query: { category: price.category },
     })
   }
+
+  const normalizedDescription = computed(() => {
+    return price.description.split(",")
+  })
+
+  const normalizedInfo = computed(() => {
+    return price.importantInfo.split(",")
+  })
+
+  const onEdit = (dataToEdit) => {
+    priceToEdit.value = dataToEdit
+    emit("editPrice")
+  }
 </script>
 
 <template>
   <div class="card" :class="{ reverse: reverse, border: border }">
-    <AppPhoto class="photo" :src="photoUrl" :alt="price.category" />
+    <AppPhoto class="photo" :src="price.photo" :alt="price.category" />
     <div class="content">
       <div class="info">
         <div class="header">
           <AppText size="l">{{ price.category }}</AppText>
-          <AppText>{{ price.price }} uah</AppText>
+          <div v-if="auth.isAuth" class="wrapper">
+            <AppText>{{ price.price }} uah</AppText>
+            <button class="secondary" @click="onEdit(price)">
+              Edit {{ price.category }}
+            </button>
+          </div>
         </div>
         <div class="details">
-          <AppText v-for="text in price.description">◦ {{ text }}</AppText>
+          <AppText v-for="text in normalizedDescription">
+            ◦ {{ text }}
+          </AppText>
         </div>
         <div class="conditions">
-          <AppText>Важливо</AppText>
-          <AppText v-for="text in price.importantInfo">◦ {{ text }}</AppText>
+          <AppText uppercase>Важливо</AppText>
+          <br />
+          <AppText v-for="text in normalizedInfo">◦ {{ text }}</AppText>
         </div>
       </div>
       <AppText hover @click="moveToCategory">view examples →</AppText>
@@ -82,5 +106,10 @@
     display: grid;
     grid-auto-rows: max-content;
     gap: 40px;
+  }
+  .wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
 </style>

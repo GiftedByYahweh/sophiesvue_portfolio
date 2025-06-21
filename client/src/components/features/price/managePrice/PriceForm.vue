@@ -9,10 +9,11 @@
     close: null,
   })
 
-  const { isLoading, error, categories } = defineProps({
+  const { isLoading, error, categories, type } = defineProps({
     isLoading: Boolean,
     error: Error,
     categories: Array,
+    type: "add" | "edit",
   })
 
   const price = defineModel("price")
@@ -20,6 +21,10 @@
   const description = defineModel("description")
   const importantInfo = defineModel("importantInfo")
   const category = defineModel("category")
+
+  const buttonTitle = computed(() => {
+    return type === "edit" ? "Edit" : "Create"
+  })
 
   const notAvaliable = computed(() => {
     return (
@@ -52,9 +57,8 @@
         </select>
         <input
           v-model="price"
-          type="text"
-          name=""
-          id=""
+          type="number"
+          max="10000"
           placeholder="price (uah)"
         />
         <FileDrop v-model="photosModel" />
@@ -79,7 +83,7 @@
         :disabled="notAvaliable || isLoading"
         @click="onSubmit"
       >
-        Create
+        {{ buttonTitle }}
       </button>
     </div>
   </form>
