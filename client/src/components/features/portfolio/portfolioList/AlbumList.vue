@@ -15,10 +15,13 @@
   const currentCollection = computed(() => {
     return route.query.collection
   })
+  const currentCategory = computed(() => {
+    return route.query.category
+  })
 
   const { data, isLoading } = useQuery({
     queryKey: ["albumList", currentCollection.value],
-    queryFn: () => fetchAlbum(currentCollection.value),
+    queryFn: () => fetchAlbum(currentCategory.value, currentCollection.value),
     enabled: !!currentCollection.value,
     retry: false,
   })
