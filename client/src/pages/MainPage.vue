@@ -9,7 +9,13 @@
     <div class="photo-container">
       <div class="title-container">
         <div class="title-block">
-          <AppText element="h1" size="title" weight="400" variant="primary">
+          <AppText
+            element="h1"
+            size="title"
+            weight="400"
+            variant="primary"
+            align="center"
+          >
             <AppText
               element="span"
               size="title"
@@ -21,7 +27,9 @@
             </AppText>
             VITINENKO
           </AppText>
-          <AppText uppercase variant="primary">based in kyiv</AppText>
+          <AppText uppercase variant="primary" align="right">
+            based in kyiv
+          </AppText>
         </div>
       </div>
     </div>

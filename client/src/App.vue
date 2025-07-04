@@ -1,9 +1,9 @@
 <script setup>
   import { useRoute } from "vue-router"
   import AppFooter from "@/components/views/AppFooter.vue"
-  import AppHeader from "@/components/views/AppHeader.vue"
   import { getToken } from "./utils/localStorage"
   import { useAuthStore } from "./stores/auth"
+  import AppHeader from "@/components/views/header/AppHeader.vue"
 
   const route = useRoute()
   const auth = useAuthStore()

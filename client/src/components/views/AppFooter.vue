@@ -109,6 +109,7 @@
     }
     .footer-content {
       flex-direction: column;
+      align-items: start;
     }
     .nav-block {
       max-width: initial;

@@ -104,4 +104,9 @@
       color: var(--accent-color);
     }
   }
+  @media screen and (max-width: 768px) {
+    .text-title {
+      font-size: 32px;
+    }
+  }
 </style>
