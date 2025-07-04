@@ -124,4 +124,12 @@
     align-items: center;
     gap: 10px;
   }
+  @media screen and (max-width: 768px) {
+    .card {
+      grid-template-columns: none;
+      grid-template-areas:
+        "photo"
+        "content";
+    }
+  }
 </style>
