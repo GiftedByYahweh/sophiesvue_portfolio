@@ -8,7 +8,6 @@
 
   const emit = defineEmits({
     editPrice: null,
-    deletePrice: null,
   })
   const priceToEdit = defineModel("edit")
 
@@ -40,10 +39,6 @@
     priceToEdit.value = dataToEdit
     emit("editPrice")
   }
-
-  const onDelete = (name) => {
-    emit("deletePrice", name)
-  }
 </script>
 
 <template>
@@ -57,13 +52,6 @@
             <AppText>{{ price.price }} uah</AppText>
             <button v-if="auth.isAuth" class="secondary" @click="onEdit(price)">
               Edit {{ price.category }}
-            </button>
-            <button
-              v-if="auth.isAuth"
-              class="primary"
-              @click="onDelete(price._id)"
-            >
-              Delete
             </button>
           </div>
         </div>
