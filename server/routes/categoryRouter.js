@@ -39,6 +39,7 @@ module.exports = async function (fastify) {
   });
 
   fastify.delete("/category/:id", async function (req, reply) {
+    checkIsUserAuth(req, fastify.config.JWT_SECRET);
     const { id } = req.params;
     await categoryRepository(fastify.mongo.db).deleteById(id);
     return { data: true, error: null };

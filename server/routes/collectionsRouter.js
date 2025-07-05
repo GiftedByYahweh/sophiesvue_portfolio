@@ -4,6 +4,7 @@ const {
   collectionsRepository,
 } = require("../model/portfolio/infrastructure/collectionsRepository");
 const { fileLoader } = require("../model/fileLoader/infrastructure/fileUpload");
+const { checkIsUserAuth } = require("../model/auth/infrastructure/jwt");
 
 module.exports = async function (fastify) {
   fastify.get("/collections", async function (req, reply) {
@@ -21,6 +22,7 @@ module.exports = async function (fastify) {
   });
 
   fastify.post("/collection", async function (req, reply) {
+    checkIsUserAuth(req, fastify.config.JWT_SECRET);
     const { filePath, fileBuffer, title, status, categoryId } =
       await fileLoader(req, "collections");
     const alreadyExist = await collectionsRepository(

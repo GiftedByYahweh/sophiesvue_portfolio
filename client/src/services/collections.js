@@ -32,7 +32,7 @@ export const createCollection = async ({
   formData.append("file", photo)
   formData.append("categoryId", categoryId)
   const response = await apiClient.collections.create(formData)
-  if (!response.data) throw new Error(response.error.message)
+  if (!response.data) throw new Error(response.error)
   return response.data
 }
 
