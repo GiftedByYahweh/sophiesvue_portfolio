@@ -1,21 +1,24 @@
 "use strict";
 
-const path = require("node:path");
+const Fastify = require("fastify");
 const AutoLoad = require("@fastify/autoload");
+const path = require("node:path");
 
-const options = {};
+const build = async () => {
+  const fastify = Fastify();
 
-module.exports = async function (fastify, opts) {
   await fastify.register(AutoLoad, {
     dir: path.join(__dirname, "plugins"),
-    options: Object.assign({}, opts),
   });
 
   await fastify.register(AutoLoad, {
     dir: path.join(__dirname, "routes"),
-    options: Object.assign({}, opts),
     prefix: "/api",
   });
+
+  await fastify.ready();
+
+  return fastify;
 };
 
-module.exports.options = options;
+module.exports = build;
