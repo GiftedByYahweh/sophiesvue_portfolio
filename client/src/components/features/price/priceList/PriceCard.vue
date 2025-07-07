@@ -81,13 +81,14 @@
     padding: 50px 0;
   }
   .photo {
+    max-height: 690px;
     grid-area: photo;
   }
   .content {
     display: grid;
     grid-template-rows: 1fr auto;
     grid-area: content;
-    gap: 60px;
+    gap: 30px;
   }
   .reverse {
     grid-template-columns: 1fr minmax(0, 625px);
@@ -105,7 +106,7 @@
   .info {
     display: grid;
     grid-auto-rows: max-content;
-    gap: 40px;
+    gap: 20px;
   }
   .wrapper {
     display: flex;

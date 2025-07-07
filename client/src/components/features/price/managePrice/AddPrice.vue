@@ -10,7 +10,6 @@
   const emit = defineEmits({
     close: null,
   })
-  const isVisible = defineModel("visible")
 
   const { getCategoryTitles } = useTitles()
   const queryClient = useQueryClient()
@@ -24,7 +23,7 @@
 
   const onCreateSuccess = () => {
     queryClient.invalidateQueries({ queryKey: ["price"] })
-    isVisible.value = false
+    emit("close")
   }
 
   const generateObj = () => ({
