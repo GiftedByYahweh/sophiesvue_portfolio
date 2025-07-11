@@ -1,24 +1,24 @@
-"use strict";
+import { checkIsUserAuth } from "../model/auth/infrastructure/jwt.js";
+import { fileLoader } from "../model/fileLoader/infrastructure/fileUpload.js";
+import { albumRepository } from "../model/portfolio/infrastructure/albumRepository.js";
+import { categoryRepository } from "../model/portfolio/infrastructure/categoryRepository.js";
+import { collectionsRepository } from "../model/portfolio/infrastructure/collectionsRepository.js";
 
-const {
-  collectionsRepository,
-} = require("../model/portfolio/infrastructure/collectionsRepository");
-const { fileLoader } = require("../model/fileLoader/infrastructure/fileUpload");
-const { checkIsUserAuth } = require("../model/auth/infrastructure/jwt");
-
-module.exports = async function (fastify) {
+export default async function (fastify) {
   fastify.get("/collections", async function (req, reply) {
     const { category } = req.query;
+    const currentCategory = await categoryRepository(
+      fastify.mongo.db
+    ).findByTitle(category);
     const collections = await collectionsRepository(fastify.mongo.db).getAll(
-      category
+      currentCategory._id
     );
     if (!collections) {
       return reply.status(400).send({
-        data: null,
         error: "Collections not found",
       });
     }
-    return { data: collections, error: null };
+    return { data: collections };
   });
 
   fastify.post("/collection", async function (req, reply) {
@@ -27,30 +27,36 @@ module.exports = async function (fastify) {
       await fileLoader(req, "collections");
     const alreadyExist = await collectionsRepository(
       fastify.mongo.db
-    ).findByTitle(title);
+    ).alreadyExist(title);
     if (alreadyExist) {
       reply.status(409).send({ error: "Дана колекція вжу існує" });
     }
-    await collectionsRepository(fastify.mongo.db).create({
+    const result = await collectionsRepository(fastify.mongo.db).create({
       title,
       photo: filePath,
       categoryId,
       status,
       buffer: fileBuffer,
     });
-    return { data: title, error: null };
+    return { data: result };
   });
 
   fastify.delete("/collection/:id", async function (req) {
     const { id } = req.params;
-    await collectionsRepository(fastify.mongo.db).deleteById(id);
-    return { data: true, error: null };
+    const collection = await collectionsRepository(fastify.mongo.db).deleteById(
+      id
+    );
+    await albumRepository(fastify.mongo.db).deleteManyById({
+      categoryId: collection.categoryId,
+      collectionId: collection._id,
+    });
+    return { message: "Success" };
   });
 
   fastify.get("/favorite-collections", async function () {
     const favorites = await collectionsRepository(
       fastify.mongo.db
     ).getFavorites();
-    return { data: favorites, error: null };
+    return { data: favorites };
   });
-};
+}

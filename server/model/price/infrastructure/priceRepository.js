@@ -1,8 +1,6 @@
-"use strict";
+import { PRICE_NAME } from "../../../utils/mongodb.js";
 
-const { PRICE_NAME } = require("../../../utils/mongodb");
-
-module.exports.priceRepository = (mongo) => {
+export const priceRepository = (mongo) => {
   const priceModel = mongo.collection(PRICE_NAME);
 
   return {

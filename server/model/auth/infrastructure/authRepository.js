@@ -1,6 +1,6 @@
-const { AUTH_NAME } = require("../../../utils/mongodb");
+import { AUTH_NAME } from "../../../utils/mongodb.js";
 
-module.exports.authRepository = (mongo) => {
+export const authRepository = (mongo) => {
   const authModel = mongo.collection(AUTH_NAME);
 
   return {

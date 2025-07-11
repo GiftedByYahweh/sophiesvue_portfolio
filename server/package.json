@@ -1,6 +1,7 @@
 {
   "name": "sophievue_server",
   "version": "1.0.0",
+  "type": "module",
   "main": "app.js",
   "scripts": {
     "start": "fastify start -l info app.js",

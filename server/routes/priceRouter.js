@@ -1,12 +1,8 @@
-"use strict";
+import { checkIsUserAuth } from "../model/auth/infrastructure/jwt.js";
+import { priceRepository } from "../model/price/infrastructure/priceRepository.js";
+import { fileLoader } from "../model/fileLoader/infrastructure/fileUpload.js";
 
-const {
-  priceRepository,
-} = require("../model/price/infrastructure/priceRepository");
-const { fileLoader } = require("../model/fileLoader/infrastructure/fileUpload");
-const { checkIsUserAuth } = require("../model/auth/infrastructure/jwt");
-
-module.exports = async function (fastify) {
+export default async function (fastify) {
   fastify.get("/price", async function () {
     const price = await priceRepository(fastify.mongo.db).get();
     return { data: price, error: null };
@@ -48,4 +44,4 @@ module.exports = async function (fastify) {
     });
     return { data: profile, error: null };
   });
-};
+}

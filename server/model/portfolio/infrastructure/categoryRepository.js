@@ -1,7 +1,7 @@
-const { CATEGORIES_NAME } = require("../../../utils/mongodb");
-const { ObjectId } = require("@fastify/mongodb");
+import { CATEGORIES_NAME } from "../../../utils/mongodb.js";
+import { ObjectId } from "@fastify/mongodb";
 
-module.exports.categoryRepository = (mongo) => {
+export const categoryRepository = (mongo) => {
   const categoryModel = mongo.collection(CATEGORIES_NAME);
 
   return {
@@ -12,6 +12,12 @@ module.exports.categoryRepository = (mongo) => {
         .sort({ createdAt: -1 })
         .toArray();
       return categories;
+    },
+    async findById(categoryId) {
+      const category = await categoryModel.findOne({
+        _id: categoryId,
+      });
+      return category;
     },
     async getAllTitles() {
       await categoryModel.createIndex({ createdAt: -1 });

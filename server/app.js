@@ -1,21 +1,19 @@
-"use strict";
+import path from "node:path";
+import fastifyAutoload from "@fastify/autoload";
+import { fileURLToPath } from "node:url";
 
-const path = require("node:path");
-const AutoLoad = require("@fastify/autoload");
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-const options = {};
-
-module.exports = async function (fastify, opts) {
-  await fastify.register(AutoLoad, {
+export default async function (fastify, opts) {
+  await fastify.register(fastifyAutoload, {
     dir: path.join(__dirname, "plugins"),
     options: Object.assign({}, opts),
   });
 
-  await fastify.register(AutoLoad, {
+  await fastify.register(fastifyAutoload, {
     dir: path.join(__dirname, "routes"),
     options: Object.assign({}, opts),
     prefix: "/api",
   });
-};
-
-module.exports.options = options;
+}

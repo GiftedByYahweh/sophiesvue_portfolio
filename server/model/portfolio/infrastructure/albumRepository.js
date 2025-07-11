@@ -1,6 +1,6 @@
-const { ALBUM_NAME, COLLECTIONS_NAME } = require("../../../utils/mongodb");
+import { ALBUM_NAME, COLLECTIONS_NAME } from "../../../utils/mongodb.js";
 
-module.exports.albumRepository = (mongo) => {
+export const albumRepository = (mongo) => {
   const collectionsModel = mongo.collection(COLLECTIONS_NAME);
   const albumModel = mongo.collection(ALBUM_NAME);
 
@@ -14,6 +14,13 @@ module.exports.albumRepository = (mongo) => {
         collectionPhotos: currentCollection._id,
       });
       return album.toArray();
+    },
+    async deleteManyById({ categoryId, collectionId }) {
+      const deleted = await albumModel.deleteMany({
+        categoryId,
+        collectionId,
+      });
+      return deleted;
     },
   };
 };

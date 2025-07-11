@@ -1,11 +1,7 @@
-"use strict";
+import { profileRepository } from "../model/profile/infrastructure/profileRepository.js";
+import { fileLoader } from "../model/fileLoader/infrastructure/fileUpload.js";
 
-const {
-  profileRepository,
-} = require("../model/profile/infrastructure/profileRepository");
-const { fileLoader } = require("../model/fileLoader/infrastructure/fileUpload");
-
-module.exports = async function (fastify) {
+export default async function (fastify) {
   fastify.get("/profile", async function (req, reply) {
     const profile = await profileRepository(fastify.mongo.db).get();
     return { data: profile, error: null };
@@ -24,4 +20,4 @@ module.exports = async function (fastify) {
     });
     return { data: profile, error: null };
   });
-};
+}

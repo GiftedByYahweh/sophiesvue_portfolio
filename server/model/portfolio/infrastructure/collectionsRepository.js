@@ -1,18 +1,13 @@
-const { CATEGORIES_NAME, COLLECTIONS_NAME } = require("../../../utils/mongodb");
-const { ObjectId } = require("@fastify/mongodb");
+import { COLLECTIONS_NAME } from "../../../utils/mongodb.js";
+import { ObjectId } from "@fastify/mongodb";
 
-module.exports.collectionsRepository = (mongo) => {
-  const categoriesModel = mongo.collection(CATEGORIES_NAME);
+export const collectionsRepository = (mongo) => {
   const collectionsModel = mongo.collection(COLLECTIONS_NAME);
 
   return {
-    async getAll(category) {
-      const currentCategory = await categoriesModel.findOne({
-        title: category,
-      });
-      if (!currentCategory) return;
+    async getAll(categoryId) {
       const collections = await collectionsModel.find({
-        categoryId: new ObjectId(currentCategory._id),
+        categoryId: categoryId,
       });
       return collections.toArray();
     },
@@ -35,6 +30,13 @@ module.exports.collectionsRepository = (mongo) => {
       });
       return collection;
     },
+    async alreadyExist({ categoryId, title }) {
+      const collection = await collectionsModel.findOne({
+        categoryId,
+        title,
+      });
+      return collection;
+    },
     async findByTitle(title) {
       const collection = await collectionsModel.findOne({
         title,
@@ -42,7 +44,7 @@ module.exports.collectionsRepository = (mongo) => {
       return collection;
     },
     async deleteById(id) {
-      const collection = await collectionsModel.deleteOne({
+      const collection = await collectionsModel.findOneAndDelete({
         _id: new ObjectId(id),
       });
       return collection;

@@ -1,8 +1,6 @@
-"use strict";
+import { PROFILE_NAME } from "../../../utils/mongodb.js";
 
-const { PROFILE_NAME } = require("../../../utils/mongodb");
-
-module.exports.profileRepository = (mongo) => {
+export const profileRepository = (mongo) => {
   const profileModel = mongo.collection(PROFILE_NAME);
 
   return {

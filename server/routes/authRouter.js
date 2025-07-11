@@ -1,12 +1,8 @@
-"use strict";
+import { createToken } from "../model/auth/infrastructure/jwt.js";
+import { authRepository } from "../model/auth/infrastructure/authRepository.js";
+import { comparePasswords } from "../model/auth/infrastructure/hash.js";
 
-const { comparePasswords } = require("../model/auth/infrastructure/hash");
-const {
-  authRepository,
-} = require("../model/auth/infrastructure/authRepository");
-const { createToken } = require("../model/auth/infrastructure/jwt");
-
-module.exports = async function (fastify) {
+export default async function (fastify) {
   fastify.post("/login", async function (req, reply) {
     const { username, password } = req.body;
     if (!username || !password) {
@@ -40,4 +36,4 @@ module.exports = async function (fastify) {
     );
     return { data: token, error: null };
   });
-};
+}

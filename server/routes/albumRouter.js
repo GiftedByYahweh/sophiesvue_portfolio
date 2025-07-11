@@ -1,10 +1,6 @@
-"use strict";
+import { albumRepository } from "../model/portfolio/infrastructure/albumRepository.js";
 
-const {
-  albumRepository,
-} = require("../model/portfolio/infrastructure/albumRepository");
-
-module.exports = async function (fastify) {
+export default async function (fastify) {
   fastify.get("/album", async function (req) {
     const { collection } = req.query;
     const album = await albumRepository(fastify.mongo.db).getAll(collection);
@@ -16,4 +12,4 @@ module.exports = async function (fastify) {
     }
     return { data: album, error: null };
   });
-};
+}

@@ -1,12 +1,8 @@
-"useStrict";
+import { fileLoader } from "../model/fileLoader/infrastructure/fileUpload.js";
+import { categoryRepository } from "../model/portfolio/infrastructure/categoryRepository.js";
+import { checkIsUserAuth } from "../model/auth/infrastructure/jwt.js";
 
-const { checkIsUserAuth } = require("../model/auth/infrastructure/jwt");
-const {
-  categoryRepository,
-} = require("../model/portfolio/infrastructure/categoryRepository");
-const { fileLoader } = require("../model/fileLoader/infrastructure/fileUpload");
-
-module.exports = async function (fastify) {
+export default async function (fastify) {
   fastify.get("/categories", async function () {
     const categories = await categoryRepository(fastify.mongo.db).getAll();
     return { data: categories, error: null };
@@ -44,4 +40,4 @@ module.exports = async function (fastify) {
     await categoryRepository(fastify.mongo.db).deleteById(id);
     return { data: true, error: null };
   });
-};
+}
