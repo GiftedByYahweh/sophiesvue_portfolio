@@ -11,15 +11,7 @@ const validateToken = (token, secretKey) => {
   return jwt.verify(token, secretKey);
 };
 
-export const checkIsUserAuth = (req, secretKey) => {
-  try {
-    const token = req.headers.authorization.split(" ")[1];
-    if (!token) throw new Error("Unauthorized");
-    const decoded = validateToken(token, secretKey);
-    return decoded;
-  } catch (err) {
-    const error = new Error("Unauthorized");
-    error.statusCode = 401;
-    throw error;
-  }
+export const checkIsUserAuth = (token, secretKey) => {
+  const decoded = validateToken(token, secretKey);
+  return decoded;
 };
