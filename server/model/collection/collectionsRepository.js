@@ -1,8 +1,7 @@
-import { COLLECTIONS_NAME } from "../../../utils/mongodb.js";
 import { ObjectId } from "@fastify/mongodb";
 
 export const collectionsRepository = (mongo) => {
-  const collectionsModel = mongo.collection(COLLECTIONS_NAME);
+  const collectionsModel = mongo.collection("collections");
 
   return {
     async getAll(categoryId) {

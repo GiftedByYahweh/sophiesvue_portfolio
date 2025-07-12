@@ -1,7 +1,5 @@
-import { PROFILE_NAME } from "../../../utils/mongodb.js";
-
 export const profileRepository = (mongo) => {
-  const profileModel = mongo.collection(PROFILE_NAME);
+  const profileModel = mongo.collection("profile");
 
   return {
     async get() {

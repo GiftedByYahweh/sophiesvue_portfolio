@@ -2,9 +2,8 @@ import path from "node:path";
 import fs from "node:fs";
 import { pipeline } from "node:stream/promises";
 
-export const fileLoader = async (data, folder) => {
+export const fileLoader = async (parts, folder) => {
   const result = {};
-  const parts = data.parts();
   for await (const part of parts) {
     if (part.type === "file") {
       const filePath = createFileName(part, folder);

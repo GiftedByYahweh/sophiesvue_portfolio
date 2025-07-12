@@ -1,7 +1,5 @@
-import { AUTH_NAME } from "../../../utils/mongodb.js";
-
 export const authRepository = (mongo) => {
-  const authModel = mongo.collection(AUTH_NAME);
+  const authModel = mongo.collection("auth");
 
   return {
     async findUser(username) {

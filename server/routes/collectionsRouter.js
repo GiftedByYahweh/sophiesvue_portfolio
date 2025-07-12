@@ -1,8 +1,8 @@
-import { checkIsUserAuth } from "../model/auth/infrastructure/jwt.js";
-import { fileLoader } from "../model/fileLoader/infrastructure/fileUpload.js";
-import { albumRepository } from "../model/portfolio/infrastructure/albumRepository.js";
-import { categoryRepository } from "../model/portfolio/infrastructure/categoryRepository.js";
-import { collectionsRepository } from "../model/portfolio/infrastructure/collectionsRepository.js";
+import { checkIsUserAuth } from "../infrastructure/jwt.js";
+import { fileLoader } from "../infrastructure/fileUpload.js";
+import { albumRepository } from "../model/album/albumRepository.js";
+import { categoryRepository } from "../model/category/categoryRepository.js";
+import { collectionsRepository } from "../model/collection/collectionsRepository.js";
 
 export default async function (fastify) {
   fastify.get("/collections", async function (req, reply) {

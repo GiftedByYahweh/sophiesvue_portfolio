@@ -1,44 +1,32 @@
-import { fileLoader } from "../model/fileLoader/infrastructure/fileUpload.js";
-import { categoryRepository } from "../model/portfolio/infrastructure/categoryRepository.js";
-import { checkIsUserAuth } from "../model/auth/infrastructure/jwt.js";
+import { categoryRepository } from "../model/category/categoryRepository.js";
+import { checkIsUserAuth } from "../infrastructure/jwt.js";
+import { categoryService } from "../model/category/categoryService.js";
 
 export default async function (fastify) {
+  const db = fastify.mongo.db;
+
   fastify.get("/categories", async function () {
-    const categories = await categoryRepository(fastify.mongo.db).getAll();
-    return { data: categories, error: null };
+    const categories = await categoryRepository(db).getAll();
+    return { data: categories };
   });
 
   fastify.get("/category-titles", async function () {
-    const categories = await categoryRepository(
-      fastify.mongo.db
-    ).getAllTitles();
-    return { data: categories, error: null };
+    const categories = await categoryRepository(db).getAllTitles();
+    return { data: categories };
   });
 
   fastify.post("/category", async function (req, reply) {
     const token = req.headers.authorization.split(" ")[1];
     checkIsUserAuth(token, fastify.config.JWT_SECRET);
-    const { filePath, title, fileBuffer } = await fileLoader(req, "categories");
-    const alreadyExist = await categoryRepository(fastify.mongo.db).findByTitle(
-      title
-    );
-    if (alreadyExist) {
-      return reply
-        .status(400)
-        .send({ data: null, error: "Дана категорія вжу існує" });
-    }
-    await categoryRepository(fastify.mongo.db).createOne({
-      title,
-      photo: filePath,
-      buffer: fileBuffer,
-    });
-    return { data: title, error: null };
+    const parts = req.parts();
+    const newCategory = await categoryService(db).createCategory(parts);
+    return { data: newCategory };
   });
 
-  fastify.delete("/category/:id", async function (req, reply) {
+  fastify.delete("/category/:id", { p }, async function (req, reply) {
     checkIsUserAuth(req, fastify.config.JWT_SECRET);
     const { id } = req.params;
-    await categoryRepository(fastify.mongo.db).deleteById(id);
-    return { data: true, error: null };
+    const deleted = await categoryRepository(db).deleteById(id);
+    return { data: deleted };
   });
 }

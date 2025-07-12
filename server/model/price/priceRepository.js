@@ -1,7 +1,5 @@
-import { PRICE_NAME } from "../../../utils/mongodb.js";
-
 export const priceRepository = (mongo) => {
-  const priceModel = mongo.collection(PRICE_NAME);
+  const priceModel = mongo.collection("price");
 
   return {
     async get() {
