@@ -1,5 +1,5 @@
 export const authRepository = (mongo) => {
-  const authModel = mongo.collection("auth");
+  const authModel = mongo.collection("user");
 
   return {
     async findUser(username) {

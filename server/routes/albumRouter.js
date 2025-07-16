@@ -1,15 +1,12 @@
-import { albumRepository } from "../model/portfolio/infrastructure/albumRepository.js";
+import { albumRepository } from "../model/album/albumRepository.js";
 
 export default async function (fastify) {
+  const db = fastify.mongo.db;
+
   fastify.get("/album", async function (req) {
     const { collection } = req.query;
-    const album = await albumRepository(fastify.mongo.db).getAll(collection);
-    if (!album) {
-      return reply.status(400).send({
-        data: null,
-        error: "Albums not found",
-      });
-    }
-    return { data: album, error: null };
+    const album = await albumRepository(db).getAll(collection);
+    if (!album) reply.status(400).send({ error: "Albums not found" });
+    return { data: album };
   });
 }

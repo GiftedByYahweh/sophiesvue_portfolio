@@ -1,5 +1,4 @@
 import { categoryRepository } from "../model/category/categoryRepository.js";
-import { checkIsUserAuth } from "../infrastructure/jwt.js";
 import { categoryService } from "../model/category/categoryService.js";
 
 export default async function (fastify) {
@@ -15,18 +14,21 @@ export default async function (fastify) {
     return { data: categories };
   });
 
-  fastify.post("/category", async function (req, reply) {
-    const token = req.headers.authorization.split(" ")[1];
-    checkIsUserAuth(token, fastify.config.JWT_SECRET);
-    const parts = req.parts();
-    const newCategory = await categoryService(db).createCategory(parts);
-    return { data: newCategory };
+  fastify.post("/category", {
+    preHandler: fastify.authGuard,
+    handler: async function (req, reply) {
+      const parts = req.parts();
+      const newCategory = await categoryService(db).createCategory(parts);
+      return { data: newCategory };
+    },
   });
 
-  fastify.delete("/category/:id", { p }, async function (req, reply) {
-    checkIsUserAuth(req, fastify.config.JWT_SECRET);
-    const { id } = req.params;
-    const deleted = await categoryRepository(db).deleteById(id);
-    return { data: deleted };
+  fastify.delete("/category/:id", {
+    preHandler: fastify.authGuard,
+    handler: async function (req, reply) {
+      const { id } = req.params;
+      const deleted = await categoryRepository(db).deleteById(id);
+      return { data: deleted };
+    },
   });
 }

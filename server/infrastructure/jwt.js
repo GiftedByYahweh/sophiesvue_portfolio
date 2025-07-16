@@ -7,11 +7,6 @@ export const createToken = (payload, secretKey) => {
   return token;
 };
 
-const validateToken = (token, secretKey) => {
+export const validateToken = (token, secretKey) => {
   return jwt.verify(token, secretKey);
-};
-
-export const checkIsUserAuth = (token, secretKey) => {
-  const decoded = validateToken(token, secretKey);
-  return decoded;
 };
