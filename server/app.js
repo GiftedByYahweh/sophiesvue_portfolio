@@ -14,6 +14,17 @@ export default async function (fastify, opts) {
 
   fastify.decorate("authGuard", authGuard(fastify.config.JWT_SECRET));
 
+  fastify.setErrorHandler(function (error, request, reply) {
+    this.log.error(error);
+    const SYSTEM_ERROR = "Something went wrong, please try again";
+
+    const errStatus = error.status ?? 500;
+    const isSystemError = errStatus >= 500;
+
+    const errMessage = isSystemError ? SYSTEM_ERROR : error.message;
+    reply.status(errStatus).send({ data: null, error: errMessage });
+  });
+
   await fastify.register(fastifyAutoload, {
     dir: path.join(__dirname, "routes"),
     options: Object.assign({}, opts),
