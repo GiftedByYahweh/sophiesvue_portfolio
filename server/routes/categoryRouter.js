@@ -18,7 +18,7 @@ export default async function (fastify) {
     preHandler: fastify.authGuard,
     handler: async function (req, reply) {
       const parts = req.parts();
-      const newCategory = await categoryService(db).createCategory(parts);
+      const newCategory = await categoryService(db).create(parts);
       return { data: newCategory };
     },
   });
@@ -27,7 +27,7 @@ export default async function (fastify) {
     preHandler: fastify.authGuard,
     handler: async function (req, reply) {
       const { id } = req.params;
-      const deleted = await categoryRepository(db).deleteById(id);
+      const deleted = await categoryService(db).delete(id);
       return { data: deleted };
     },
   });
