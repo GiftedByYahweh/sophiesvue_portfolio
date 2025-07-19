@@ -42,10 +42,10 @@ export const categoryRepository = (mongo) => {
       return category;
     },
     async deleteById(id) {
-      const elToDelete = await categoryModel.deleteOne({
+      const category = await categoryModel.findOneAndDelete({
         _id: new ObjectId(id),
       });
-      return elToDelete;
+      return category;
     },
   };
 };

@@ -30,8 +30,8 @@ export const collectionsRepository = (mongo) => {
       return collection;
     },
     async alreadyExist({ categoryId, title }) {
-      const collection = await collectionsModel.findOne({
-        categoryId,
+      const collection = await collectionsModel.find({
+        categoryId: new ObjectId(categoryId),
         title,
       });
       return collection;
@@ -45,6 +45,12 @@ export const collectionsRepository = (mongo) => {
     async deleteById(id) {
       const collection = await collectionsModel.findOneAndDelete({
         _id: new ObjectId(id),
+      });
+      return collection;
+    },
+    async deleteByCategoryId(id) {
+      const collection = await collectionsModel.deleteMany({
+        categoryId: new ObjectId(id),
       });
       return collection;
     },

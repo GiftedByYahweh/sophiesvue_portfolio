@@ -1,6 +1,6 @@
-import { fileLoader } from "../infrastructure/fileUpload.js";
 import { albumRepository } from "../model/album/albumRepository.js";
 import { categoryRepository } from "../model/category/categoryRepository.js";
+import { collectionService } from "../model/collection/collectionService.js";
 import { collectionsRepository } from "../model/collection/collectionsRepository.js";
 
 export default async function (fastify) {
@@ -9,7 +9,7 @@ export default async function (fastify) {
   fastify.get("/collections", async function (req, reply) {
     const { category } = req.query;
     const currentCategory = await categoryRepository(db).findByTitle(category);
-    const collections = await collectionsRepository(fdb).getAll(
+    const collections = await collectionsRepository(db).getAll(
       currentCategory._id
     );
     if (!collections) {
@@ -23,20 +23,9 @@ export default async function (fastify) {
   fastify.post("/collection", {
     preHandler: fastify.authGuard,
     handler: async function (req, reply) {
-      const { filePath, fileBuffer, title, status, categoryId } =
-        await fileLoader(req, "collections");
-      const alreadyExist = await collectionsRepository(db).alreadyExist(title);
-      if (alreadyExist) {
-        reply.status(409).send({ error: "Дана колекція вжу існує" });
-      }
-      const result = await collectionsRepository(db).create({
-        title,
-        photo: filePath,
-        categoryId,
-        status,
-        buffer: fileBuffer,
-      });
-      return { data: result };
+      const parts = req.parts();
+      const collection = await collectionService(db).create(parts);
+      return { data: collection };
     },
   });
 
@@ -46,7 +35,6 @@ export default async function (fastify) {
       const { id } = req.params;
       const collection = await collectionsRepository(db).deleteById(id);
       const deleted = await albumRepository(db).deleteManyById({
-        categoryId: collection.categoryId,
         collectionId: collection._id,
       });
       return { message: deleted };
@@ -54,9 +42,7 @@ export default async function (fastify) {
   });
 
   fastify.get("/favorite-collections", async function () {
-    const favorites = await collectionsRepository(
-      fastify.mongo.db
-    ).getFavorites();
+    const favorites = await collectionsRepository(db).getFavorites();
     return { data: favorites };
   });
 }
