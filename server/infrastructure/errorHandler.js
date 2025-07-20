@@ -16,4 +16,8 @@ export class ApiError extends Error {
   static BadRequest(message) {
     throw new ApiError(400, message);
   }
+
+  static NotFound(message) {
+    throw new ApiError(404, message);
+  }
 }

@@ -31,6 +31,10 @@ export class FileLoader {
     return filePath;
   }
 
+  async deleteFile(filePath) {
+    await fs.promises.unlink(filePath, (err) => console.log(err));
+  }
+
   #createFileName(filename) {
     return path.join(`static/${this.#folder}`, `${Date.now()}-${filename}`);
   }

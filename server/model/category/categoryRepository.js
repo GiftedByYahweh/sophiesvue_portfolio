@@ -14,7 +14,7 @@ export const categoryRepository = (mongo) => {
     },
     async findById(categoryId) {
       const category = await categoryModel.findOne({
-        _id: categoryId,
+        _id: new ObjectId(categoryId),
       });
       return category;
     },

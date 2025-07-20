@@ -18,19 +18,18 @@ export const collectionsRepository = (mongo) => {
         .toArray();
       return favorites;
     },
-    async create({ title, photo, status, categoryId, buffer }) {
+    async create({ title, photo, status, categoryId, categoryTitle }) {
       const collection = await collectionsModel.insertOne({
-        title: title,
-        photo: photo,
-        status: status,
+        title,
+        photo,
+        status,
         categoryId: new ObjectId(categoryId),
-        createdAt: new Date(),
-        buffer: buffer,
+        categoryTitle,
       });
       return collection;
     },
     async alreadyExist({ categoryId, title }) {
-      const collection = await collectionsModel.find({
+      const collection = await collectionsModel.findOne({
         categoryId: new ObjectId(categoryId),
         title,
       });
@@ -42,6 +41,18 @@ export const collectionsRepository = (mongo) => {
       });
       return collection;
     },
+    async findByCategoryTitles(categoryTitle) {
+      const collection = await collectionsModel
+        .find({ categoryTitle }, { projection: { _id: 1, title: 1 } })
+        .toArray();
+      return collection;
+    },
+    async findByCategoryId(categoryId) {
+      const collections = await collectionsModel.find({
+        categoryId: new ObjectId(categoryId),
+      });
+      return collections.toArray();
+    },
     async deleteById(id) {
       const collection = await collectionsModel.findOneAndDelete({
         _id: new ObjectId(id),
@@ -49,10 +60,15 @@ export const collectionsRepository = (mongo) => {
       return collection;
     },
     async deleteByCategoryId(id) {
-      const collection = await collectionsModel.deleteMany({
+      const collections = await collectionsModel
+        .find({
+          categoryId: new ObjectId(id),
+        })
+        .toArray();
+      await collectionsModel.deleteMany({
         categoryId: new ObjectId(id),
       });
-      return collection;
+      return collections;
     },
   };
 };

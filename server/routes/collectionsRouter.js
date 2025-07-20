@@ -1,5 +1,4 @@
 import { albumRepository } from "../model/album/albumRepository.js";
-import { categoryRepository } from "../model/category/categoryRepository.js";
 import { collectionService } from "../model/collection/collectionService.js";
 import { collectionsRepository } from "../model/collection/collectionsRepository.js";
 
@@ -8,15 +7,7 @@ export default async function (fastify) {
 
   fastify.get("/collections", async function (req, reply) {
     const { category } = req.query;
-    const currentCategory = await categoryRepository(db).findByTitle(category);
-    const collections = await collectionsRepository(db).getAll(
-      currentCategory._id
-    );
-    if (!collections) {
-      return reply.status(400).send({
-        error: "Collections not found",
-      });
-    }
+    const collections = await collectionService(db).getAll(category);
     return { data: collections };
   });
 
@@ -44,5 +35,11 @@ export default async function (fastify) {
   fastify.get("/favorite-collections", async function () {
     const favorites = await collectionsRepository(db).getFavorites();
     return { data: favorites };
+  });
+
+  fastify.get("/collection-titles", async function (req) {
+    const { category } = req.query;
+    const titles = await collectionService(db).getTitles(category);
+    return { data: titles };
   });
 }
