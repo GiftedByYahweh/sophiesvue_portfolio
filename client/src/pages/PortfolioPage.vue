@@ -11,11 +11,11 @@
   const category = computed(() => route.query.category)
   const collection = computed(() => route.query.collection)
 
-  const component = computed(() => {
-    if (category.value && collection.value) return AlbumList
-    if (category.value) return CollectionsView
-    return CategoriesView
-  })
+  const portfolioList = {
+    categories: CategoriesView,
+    collections: CollectionsView,
+    album: AlbumList,
+  }
 
   const key = computed(() => {
     if (category.value && collection.value) return "album"
@@ -27,7 +27,7 @@
 <template>
   <AppPage>
     <Transition name="fade" mode="out-in">
-      <Component :is="component" :key="key" />
+      <Component :is="portfolioList[key]" :key="key" />
     </Transition>
   </AppPage>
 </template>
