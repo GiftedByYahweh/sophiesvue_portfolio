@@ -2,9 +2,9 @@
   import { computed } from "vue"
   import { useRoute } from "vue-router"
   import AppPage from "@/components/shared/AppPage.vue"
-  import { AlbumList } from "@/components/features/portfolio"
   import CategoriesView from "@/components/views/CategoriesView.vue"
   import CollectionsView from "@/components/views/CollectionsView.vue"
+  import AlbumView from "@/components/views/AlbumView.vue"
 
   const route = useRoute()
 
@@ -14,7 +14,7 @@
   const portfolioList = {
     categories: CategoriesView,
     collections: CollectionsView,
-    album: AlbumList,
+    album: AlbumView,
   }
 
   const key = computed(() => {

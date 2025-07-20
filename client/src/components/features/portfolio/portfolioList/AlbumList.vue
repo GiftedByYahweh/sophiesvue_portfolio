@@ -15,6 +15,7 @@
   const currentCollection = computed(() => {
     return route.query.collection
   })
+
   const currentCategory = computed(() => {
     return route.query.category
   })
@@ -26,8 +27,8 @@
     retry: false,
   })
 
-  onMounted(() => {
-    getCollectionTitles()
+  onMounted(async () => {
+    await getCollectionTitles(currentCategory.value)
   })
 </script>
 

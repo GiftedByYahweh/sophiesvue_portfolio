@@ -4,3 +4,4 @@ export { default as FavoriteCollectionsList } from "./portfolioList/FavoriteColl
 export { default as AlbumList } from "./portfolioList/AlbumList.vue"
 export { default as CreateCategory } from "./managePortfolio/CreateCategory.vue"
 export { default as CreateCollection } from "./managePortfolio/CreateCollection.vue"
+export { default as AddAlbum } from "./managePortfolio/AddAlbum.vue"

@@ -3,9 +3,11 @@ import { fetchCollectionTitles } from "@/services/collections"
 import { usePortfolioStore } from "@/stores/portfolio"
 import { useQuery } from "@tanstack/vue-query"
 import { watch } from "vue"
+import { useRoute } from "vue-router"
 
 export const useTitles = () => {
   const portfolio = usePortfolioStore()
+  const route = useRoute()
 
   const { data: categoryTitles, refetch: refetchCategories } = useQuery({
     queryKey: ["categoryTitles"],
@@ -14,9 +16,9 @@ export const useTitles = () => {
     enabled: false,
   })
 
-  const { data: collectionTitles, refetch: refetchCollection } = useQuery({
+  const { data: collectionTitles, refetch: refetchCollections } = useQuery({
     queryKey: ["collectionTitles"],
-    queryFn: () => fetchCollectionTitles(category),
+    queryFn: () => fetchCollectionTitles(route.query.category),
     retry: false,
     enabled: false,
   })
@@ -33,8 +35,8 @@ export const useTitles = () => {
     await refetchCategories()
   }
 
-  const getCollectionTitles = async () => {
-    await refetchCollection()
+  const getCollectionTitles = async (category) => {
+    await refetchCollections(category)
   }
 
   return {

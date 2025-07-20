@@ -12,15 +12,15 @@ export const categoryApi = (transport) => ({
 
 export const collectionApi = (transport) => ({
   getAll: (params) => transport.get(`/collections?${params}`),
-  getFavorites: () => transport.get("/favorite-collections?"),
-  getTitles: () => transport.get("/collection-titles"),
+  getFavorites: () => transport.get("/favorite-collections"),
+  getTitles: (params) => transport.get(`/collection-titles?${params}`),
   create: (payload) => transport.post("/collection", payload),
   delete: (id) => transport.delete(`/collection/${id}`),
 })
 
 export const albumApi = (transport) => ({
   getAll: (params) => transport.get(`/album?${params}`),
-  create: () => transport.post("/create"),
+  create: (payload) => transport.post("/album", payload),
 })
 
 export const profileApi = (transport) => ({

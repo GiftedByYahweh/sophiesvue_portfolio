@@ -1,5 +1,5 @@
 <script setup>
-  import { computed, ref } from "vue"
+  import { computed } from "vue"
   import { FileDrop } from "@/components/widgets"
   import AppLoader from "@/components/shared/AppLoader.vue"
   import AppText from "@/components/shared/AppText.vue"
@@ -9,9 +9,10 @@
     close: null,
   })
 
-  const { isLoading, error } = defineProps({
+  const { isLoading, error, multiple } = defineProps({
     isLoading: Boolean,
     error: Error,
+    multiple: Boolean,
   })
 
   const title = defineModel("title")
@@ -19,7 +20,9 @@
   const photosModel = defineModel("photos")
 
   const notAvaliable = computed(() => {
-    return !title.value || !photosModel.value.length
+    const titleRequiredAndEmpty =
+      title.value === undefined ? false : !title.value
+    return titleRequiredAndEmpty || !photosModel.value.length
   })
 
   const hasLikedField = computed(() => {
@@ -40,12 +43,17 @@
 <template>
   <form @submit.prevent class="form">
     <AppText variant="accent">{{ error }}</AppText>
-    <input v-model="title" type="text" placeholder="add title" />
+    <input
+      v-if="title !== undefined"
+      v-model="title"
+      type="text"
+      placeholder="add title"
+    />
     <div v-if="hasLikedField" class="liked-block">
       <input v-model="liked" type="checkbox" />
       <AppText>Mark as liked</AppText>
     </div>
-    <FileDrop v-model="photosModel" multiple />
+    <FileDrop v-model="photosModel" :multiple="multiple" />
     <div class="btns">
       <button class="secondary" @click="onClose">Close</button>
       <div v-if="isLoading" class="loading-box">
