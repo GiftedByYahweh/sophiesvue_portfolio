@@ -12,7 +12,6 @@ const createCategory = async (db, { parts }) => {
   const newCategory = await categoryRepository(db).createOne({
     title: title,
     photo: filePath,
-    buffer: fileBuffer,
   });
   return newCategory;
 };

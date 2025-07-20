@@ -26,12 +26,11 @@ export const categoryRepository = (mongo) => {
         .toArray();
       return categories;
     },
-    async createOne({ title, photo, buffer }) {
+    async createOne({ title, photo }) {
       const category = await categoryModel.insertOne({
         title,
         photo,
         createdAt: new Date(),
-        buffer,
       });
       return category;
     },
