@@ -12,4 +12,8 @@ export class ApiError extends Error {
   static UnAuthorized() {
     throw new ApiError(401, "Unauthorized");
   }
+
+  static BadRequest(message) {
+    throw new ApiError(400, message);
+  }
 }
