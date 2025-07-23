@@ -1,5 +1,9 @@
 import { ApiError } from "../../infrastructure/errorHandler.js";
-import { FileLoader } from "../../infrastructure/fileUpload.js";
+import {
+  ALBUM_FOLDER,
+  CATEGORIES_FOLDER,
+  COLLECTIONS_FOLDER,
+} from "../../utils/fileFolders.js";
 import { albumRepository } from "../album/albumRepository.js";
 import { collectionsRepository } from "../collection/collectionsRepository.js";
 import { categoryRepository } from "./categoryRepository.js";
@@ -36,10 +40,10 @@ const deleteCategory = async (
   return category;
 };
 
-export const categoryService = (db) => {
-  const albumFileLoader = new FileLoader("albums");
-  const categoryFileLoader = new FileLoader("categories");
-  const collectionsFileLoader = new FileLoader("collections");
+export const categoryService = (db, fl) => {
+  const categoryFileLoader = fl.create(CATEGORIES_FOLDER);
+  const collectionsFileLoader = fl.create(COLLECTIONS_FOLDER);
+  const albumFileLoader = fl.create(ALBUM_FOLDER);
   return {
     create: (parts) =>
       createCategory(parts, { db, fileLoader: categoryFileLoader }),

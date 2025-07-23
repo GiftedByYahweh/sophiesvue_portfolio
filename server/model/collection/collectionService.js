@@ -1,11 +1,9 @@
 import { ApiError } from "../../infrastructure/errorHandler.js";
-import { FileLoader } from "../../infrastructure/fileUpload.js";
+import { COLLECTIONS_FOLDER } from "../../utils/fileFolders.js";
 import { categoryRepository } from "../category/categoryRepository.js";
 import { collectionsRepository } from "./collectionsRepository.js";
 
-const fileLoader = new FileLoader("collections");
-
-const create = async (db, { parts }) => {
+const create = async (parts, { db, fileLoader }) => {
   const { file, title, status, categoryId } = await fileLoader.read(parts);
   const alreadyExist = await collectionsRepository(db).alreadyExist({
     categoryId,
@@ -25,7 +23,7 @@ const create = async (db, { parts }) => {
   return result;
 };
 
-const getAll = async (db, category) => {
+const getAll = async (category, { db }) => {
   const currentCategory = await categoryRepository(db).findByTitle(category);
   const collections = await collectionsRepository(db).getAll(
     currentCategory?._id
@@ -34,17 +32,20 @@ const getAll = async (db, category) => {
   return collections;
 };
 
-const getTitles = async (db, category) => {
+const getTitles = async (category, { db }) => {
   const collections =
     await collectionsRepository(db).findByCategoryTitles(category);
   return collections;
 };
 
-const deleteCollection = async (db, id) => {};
+const deleteCollection = async (id, { db }) => {};
 
-export const collectionService = (db) => ({
-  create: (parts) => create(db, { parts }),
-  getAll: (category) => getAll(db, category),
-  deleteCollection: (id) => deleteCollection(db, id),
-  getTitles: (category) => getTitles(db, category),
-});
+export const collectionService = (db, fl) => {
+  const fileLoader = fl.create(COLLECTIONS_FOLDER);
+  return {
+    create: (parts) => create(parts, { db, fileLoader }),
+    getAll: (category) => getAll(category, { db }),
+    deleteCollection: (id) => deleteCollection(id, { db }),
+    getTitles: (category) => getTitles(category, { db }),
+  };
+};

@@ -2,7 +2,7 @@ import { categoryRepository } from "../model/category/categoryRepository.js";
 import { categoryService } from "../model/category/categoryService.js";
 
 export default async function (fastify) {
-  const db = fastify.mongo.db;
+  const service = categoryService(fastify.mongo.db, fastify.fileLoader);
 
   fastify.get("/categories", async function () {
     const categories = await categoryRepository(db).getAll();
@@ -16,18 +16,18 @@ export default async function (fastify) {
 
   fastify.post("/category", {
     preHandler: fastify.authGuard,
-    handler: async function (req, reply) {
+    handler: async function (req) {
       const parts = req.parts();
-      const newCategory = await categoryService(db).create(parts);
+      const newCategory = await service.create(parts);
       return { data: newCategory };
     },
   });
 
   fastify.delete("/category/:id", {
     preHandler: fastify.authGuard,
-    handler: async function (req, reply) {
+    handler: async function (req) {
       const { id } = req.params;
-      const deleted = await categoryService(db).delete(id);
+      const deleted = await service.delete(id);
       return { data: deleted };
     },
   });
