@@ -5,9 +5,11 @@ export const collectionsRepository = (mongo) => {
 
   return {
     async getAll(categoryId) {
-      const collections = await collectionsModel.find({
-        categoryId: categoryId,
-      });
+      const collections = await collectionsModel
+        .find({
+          categoryId: categoryId,
+        })
+        .sort({ _id: -1 });
       return collections.toArray();
     },
     async getFavorites() {
@@ -15,6 +17,7 @@ export const collectionsRepository = (mongo) => {
         .find({
           status: "liked",
         })
+        .sort({ _id: -1 })
         .toArray();
       return favorites;
     },

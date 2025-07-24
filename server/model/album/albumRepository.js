@@ -3,9 +3,11 @@ export const albumRepository = (mongo) => {
 
   return {
     async getAll(collectionId) {
-      const album = await albumModel.find({
-        collectionId: collectionId.toString(),
-      });
+      const album = await albumModel
+        .find({
+          collectionId: collectionId.toString(),
+        })
+        .sort({ _id: -1 });
       return album.toArray();
     },
     async create({ photo, collectionId }) {

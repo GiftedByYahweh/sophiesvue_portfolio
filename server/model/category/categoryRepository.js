@@ -5,11 +5,7 @@ export const categoryRepository = (mongo) => {
 
   return {
     async getAll() {
-      await categoryModel.createIndex({ createdAt: -1 });
-      const categories = await categoryModel
-        .find()
-        .sort({ createdAt: -1 })
-        .toArray();
+      const categories = await categoryModel.find().sort({ _id: -1 }).toArray();
       return categories;
     },
     async findById(categoryId) {
@@ -19,10 +15,9 @@ export const categoryRepository = (mongo) => {
       return category;
     },
     async getTitles() {
-      await categoryModel.createIndex({ createdAt: -1 });
       const categories = await categoryModel
         .find({}, { projection: { title: 1 } })
-        .sort({ createdAt: -1 })
+        .sort({ _id: -1 })
         .toArray();
       return categories;
     },
@@ -30,7 +25,6 @@ export const categoryRepository = (mongo) => {
       const category = await categoryModel.insertOne({
         title,
         photo,
-        createdAt: new Date(),
       });
       return category;
     },
