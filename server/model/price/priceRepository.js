@@ -2,8 +2,8 @@ export const priceRepository = (mongo) => {
   const priceModel = mongo.collection("price");
 
   return {
-    async get() {
-      const profile = await priceModel.find().toArray();
+    async getAll() {
+      const profile = await priceModel.find().sort({ _id: -1 }).toArray();
       return profile;
     },
     async findOne(category) {

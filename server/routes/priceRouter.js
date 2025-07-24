@@ -1,34 +1,19 @@
-import { priceRepository } from "../model/price/priceRepository.js";
-// import { fileLoader } from "../infrastructure/fileUpload.js";
+import { priceService } from "../model/price/priceService.js";
 
 export default async function (fastify) {
-  const db = fastify.mongo.db;
+  const service = priceService(fastify.mongo.db, fastify.fileLoader);
 
   fastify.get("/price", async function () {
-    const price = await priceRepository(db).get();
+    const price = await service.getAll();
     return { data: price };
   });
 
   fastify.post("/price", {
     preHandler: fastify.authGuard,
     handler: async function (req, reply) {
-      c;
-      // const { filePath, price, description, importantInfo, category } =
-      //   await fileLoader(req, "price");
-      // const priceExist = await priceRepository(db).findOne(category);
-      // if (priceExist) {
-      //   return reply.status(409).send({
-      //     error: "This price already exist",
-      //   });
-      // }
-      // const profile = await priceRepository(db).create({
-      //   category,
-      //   importantInfo,
-      //   description,
-      //   price,
-      //   photo: filePath,
-      // });
-      // return { data: profile };
+      const parts = req.parts();
+      const price = await service.create(parts);
+      return { data: price };
     },
   });
 

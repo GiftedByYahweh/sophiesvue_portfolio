@@ -15,7 +15,7 @@ export const addPrice = async ({
 }) => {
   const formData = new FormData()
   formData.append("price", price)
-  formData.append("photo", photo)
+  formData.append("file", photo)
   formData.append("description", description)
   formData.append("importantInfo", importantInfo)
   formData.append("category", category)
@@ -33,7 +33,7 @@ export const editPrice = async ({
 }) => {
   const formData = new FormData()
   formData.append("price", price)
-  formData.append("photo", photo)
+  formData.append("file", photo)
   formData.append("description", description)
   formData.append("importantInfo", importantInfo)
   formData.append("category", category)
