@@ -18,7 +18,7 @@ export const categoryRepository = (mongo) => {
       });
       return category;
     },
-    async getAllTitles() {
+    async getTitles() {
       await categoryModel.createIndex({ createdAt: -1 });
       const categories = await categoryModel
         .find({}, { projection: { title: 1 } })

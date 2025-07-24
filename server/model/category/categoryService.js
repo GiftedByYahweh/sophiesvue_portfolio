@@ -40,6 +40,14 @@ const deleteCategory = async (
   return category;
 };
 
+const getAll = async (db) => {
+  return await categoryRepository(db).getAll();
+};
+
+const getTitles = async (db) => {
+  return await categoryRepository(db).getTitles();
+};
+
 export const categoryService = (db, fl) => {
   const categoryFileLoader = fl.create(CATEGORIES_FOLDER);
   const collectionsFileLoader = fl.create(COLLECTIONS_FOLDER);
@@ -54,5 +62,7 @@ export const categoryService = (db, fl) => {
         categoryFileLoader,
         collectionsFileLoader,
       }),
+    getAll: () => getAll(db),
+    getTitles: () => getTitles(db),
   };
 };

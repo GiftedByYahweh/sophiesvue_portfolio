@@ -1,16 +1,15 @@
-import { categoryRepository } from "../model/category/categoryRepository.js";
 import { categoryService } from "../model/category/categoryService.js";
 
 export default async function (fastify) {
   const service = categoryService(fastify.mongo.db, fastify.fileLoader);
 
   fastify.get("/categories", async function () {
-    const categories = await categoryRepository(db).getAll();
+    const categories = await service.getAll();
     return { data: categories };
   });
 
   fastify.get("/category-titles", async function () {
-    const categories = await categoryRepository(db).getAllTitles();
+    const categories = await service.getTitles();
     return { data: categories };
   });
 
