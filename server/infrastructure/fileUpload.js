@@ -25,6 +25,7 @@ export class FileLoader {
   }
 
   async loadFile(file) {
+    if (!file || !file.buffer) return;
     const filePath = this.#createFileName(file.filename);
     await fs.promises.writeFile(filePath, file.buffer);
     return filePath;

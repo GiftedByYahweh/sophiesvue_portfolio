@@ -1,5 +1,5 @@
 <script setup>
-  import { onMounted, ref } from "vue"
+  import { computed, onMounted, ref } from "vue"
   import { useMutation, useQueryClient } from "@tanstack/vue-query"
   import PriceForm from "./PriceForm.vue"
   import { editPrice } from "@/services/price"
@@ -18,8 +18,8 @@
 
   const newPrice = ref({
     ...priceToEdit.value,
-    photosModel: [],
-    prevPhoto: [priceToEdit.value.photo],
+    photosModel: [priceToEdit.value.photo],
+    prevPhoto: priceToEdit.value.photo,
     description: textCommaToLines(priceToEdit.value.description),
     importantInfo: textCommaToLines(priceToEdit.value.importantInfo),
   })
@@ -29,10 +29,15 @@
     emit("close")
   }
 
+  const newPhoto = computed(() => {
+    const file = newPrice.value.photosModel[0]
+    return file instanceof File ? file : null
+  })
+
   const generateObj = () => ({
     price: newPrice.value.price,
     category: newPrice.value.category,
-    photo: newPrice.value.photosModel[0],
+    photo: newPhoto.value,
     prevPhoto: newPrice.value.prevPhoto,
     description: textLinesToArray(newPrice.value.description),
     importantInfo: textLinesToArray(newPrice.value.importantInfo),

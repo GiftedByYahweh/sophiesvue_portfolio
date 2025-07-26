@@ -20,7 +20,7 @@ export const priceRepository = (mongo) => {
       });
       return newPrice;
     },
-    async update({ price, description, importantInfo, photo, category }) {
+    async edit({ price, description, importantInfo, photo, category }) {
       const updated = await priceModel.findOneAndUpdate(
         { category: category },
         {

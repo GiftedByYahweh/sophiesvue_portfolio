@@ -10,7 +10,7 @@ export default async function (fastify) {
 
   fastify.post("/price", {
     preHandler: fastify.authGuard,
-    handler: async function (req, reply) {
+    handler: async function (req) {
       const parts = req.parts();
       const price = await service.create(parts);
       return { data: price };
@@ -19,17 +19,10 @@ export default async function (fastify) {
 
   fastify.put("/price", {
     preHandler: fastify.authGuard,
-    handler: async function (req, reply) {
-      // const { filePath, price, description, importantInfo, photo, category } =
-      //   await fileLoader(req, "price");
-      // const profile = await priceRepository(fastify.mongo.db).update({
-      //   category,
-      //   importantInfo,
-      //   description,
-      //   price,
-      //   photo: filePath || photo,
-      // });
-      // return { data: profile };
+    handler: async function (req) {
+      const parts = req.parts();
+      const price = await service.editPrice(parts);
+      return { data: price };
     },
   });
 }
