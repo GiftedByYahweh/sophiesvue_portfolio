@@ -1,11 +1,11 @@
 import { authService } from "../model/auth/authService.js";
 
 export default async function (fastify) {
-  const db = fastify.mongo.db;
+  const service = authService(fastify.mongo.db);
 
-  fastify.post("/login", async function (req, reply) {
+  fastify.post("/login", async function (req) {
     const { username, password } = req.body;
-    const userToken = await authService(db).login(
+    const userToken = await service.login(
       { username, password },
       fastify.config.JWT_SECRET
     );
