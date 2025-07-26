@@ -1,5 +1,5 @@
 <script setup>
-  import { computed, ref } from "vue"
+  import { computed } from "vue"
   import AppPhoto from "@/components/shared/AppPhoto.vue"
   import AppText from "@/components/shared/AppText.vue"
   import { useAuthStore } from "@/stores/auth"
@@ -46,6 +46,9 @@
   .card {
     cursor: pointer;
     position: relative;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
   .photo-wrapper {
     overflow: hidden;

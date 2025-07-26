@@ -15,7 +15,7 @@
   const queryClient = useQueryClient()
 
   const onCreateSuccess = () => {
-    queryClient.invalidateQueries({ queryKey: ["albums"] })
+    queryClient.invalidateQueries({ queryKey: ["albumList"] })
     photosModel.value = []
     isVisible.value = false
   }

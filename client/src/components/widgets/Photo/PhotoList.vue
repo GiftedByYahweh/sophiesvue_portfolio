@@ -10,12 +10,14 @@
     error,
     square,
     portfolio,
+    listType = "normal",
   } = defineProps({
     data: Array,
     isLoading: Boolean,
     error: Error,
     square: Boolean,
     portfolio: String,
+    listType: String,
   })
 
   const emit = defineEmits({
@@ -51,6 +53,8 @@
     emit("onDelete", id)
     onPopupClose()
   }
+
+  console.log(listType)
 </script>
 
 <template>
@@ -58,7 +62,7 @@
     <AppLoader v-if="isLoading" />
     <div v-else-if="error">{{ error }}</div>
     <div v-else-if="isEmpty">{{ `Sorry, there's no data (((` }}</div>
-    <TransitionGroup v-else tag="div" name="fade" class="list">
+    <TransitionGroup v-else tag="div" name="fade" :class="listType">
       <PhotoCard
         v-for="photo in data"
         :key="photo._id"
@@ -80,11 +84,19 @@
 </template>
 
 <style scoped>
-  .list {
+  .normal {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 20px;
     width: 100%;
+  }
+  .mansory {
+    column-width: 625px;
+    column-gap: 16px;
+  }
+  .mansory > * {
+    margin-bottom: 16px;
+    display: inline-block;
   }
   .list-wrapper {
     display: grid;

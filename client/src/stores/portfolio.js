@@ -9,6 +9,10 @@ export const usePortfolioStore = defineStore("portfolio", () => {
     return categories.value.map((el) => el.title)
   })
 
+  const collectionTitles = computed(() => {
+    return collections.value.map((el) => el.title)
+  })
+
   const currentCategoryId = (title) => {
     const category = categories.value.find((item) => {
       return item.title === title
@@ -33,6 +37,7 @@ export const usePortfolioStore = defineStore("portfolio", () => {
 
   return {
     categoryTitles,
+    collectionTitles,
     collections,
     setCategoryTitles,
     setCollectionTitles,
