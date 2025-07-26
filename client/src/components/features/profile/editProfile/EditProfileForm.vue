@@ -14,6 +14,7 @@
   const newInfo = ref({
     ...currentInfo.value,
     photo: [currentInfo.value.photo],
+    prevPhoto: currentInfo.value.photo,
   })
 
   const notEnabled = computed(() => {
@@ -22,14 +23,18 @@
     )
   })
 
+  const newPhoto = computed(() => {
+    const file = newInfo.value.photo[0]
+    return file instanceof File ? file : null
+  })
+
   const onCreateSuccess = () => {
     queryClient.invalidateQueries({ queryKey: ["about"] })
     emit("close")
   }
 
   const { mutateAsync, isPending, error } = useMutation({
-    mutationFn: () =>
-      editProfile({ ...newInfo.value, photo: newInfo.value.photo[0] }),
+    mutationFn: () => editProfile({ ...newInfo.value, photo: newPhoto.value }),
     onSuccess: onCreateSuccess,
   })
 
