@@ -18,7 +18,8 @@
 
   const newPrice = ref({
     ...priceToEdit.value,
-    photosModel: [priceToEdit.value.photo],
+    photosModel: [],
+    prevPhoto: [priceToEdit.value.photo],
     description: textCommaToLines(priceToEdit.value.description),
     importantInfo: textCommaToLines(priceToEdit.value.importantInfo),
   })
@@ -31,7 +32,8 @@
   const generateObj = () => ({
     price: newPrice.value.price,
     category: newPrice.value.category,
-    photo: [newPrice.value.photosModel],
+    photo: newPrice.value.photosModel[0],
+    prevPhoto: newPrice.value.prevPhoto,
     description: textLinesToArray(newPrice.value.description),
     importantInfo: textLinesToArray(newPrice.value.importantInfo),
   })

@@ -28,12 +28,14 @@ export const editPrice = async ({
   price,
   category,
   photo,
+  prevPhoto,
   description,
   importantInfo,
 }) => {
   const formData = new FormData()
   formData.append("price", price)
   formData.append("file", photo)
+  formData.append("prevPhoto", prevPhoto)
   formData.append("description", description)
   formData.append("importantInfo", importantInfo)
   formData.append("category", category)
