@@ -1,6 +1,4 @@
-import { albumRepository } from "../model/album/albumRepository.js";
 import { collectionService } from "../model/collection/collectionService.js";
-import { collectionsRepository } from "../model/collection/collectionsRepository.js";
 
 export default async function (fastify) {
   const service = collectionService(fastify.mongo.db, fastify.fileLoader);
@@ -24,16 +22,13 @@ export default async function (fastify) {
     preHandler: fastify.authGuard,
     handler: async function (req) {
       const { id } = req.params;
-      const collection = await collectionsRepository(db).deleteById(id);
-      const deleted = await albumRepository(db).deleteManyById({
-        collectionId: collection._id,
-      });
-      return { message: deleted };
+      const collection = await service.deleteCollection(id);
+      return { data: collection };
     },
   });
 
   fastify.get("/favorite-collections", async function () {
-    const favorites = await collectionsRepository(db).getFavorites();
+    const favorites = await service.getFavorites();
     return { data: favorites };
   });
 

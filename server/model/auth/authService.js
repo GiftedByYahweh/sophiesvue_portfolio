@@ -4,20 +4,14 @@ import { createToken } from "../../infrastructure/jwt.js";
 import { authRepository } from "./authRepository.js";
 
 const login = async (db, { username, password }, secret) => {
-  if (!username || !password) {
-    return ApiError.BadRequest("Invalid data");
-  }
+  if (!username || !password) ApiError.BadRequest("Invalid data");
   const currentUser = await authRepository(db).findUser(username);
-  if (!currentUser) {
-    return ApiError.BadRequest("Wrong username or password");
-  }
+  if (!currentUser) ApiError.BadRequest("Wrong username or password");
   const isPasswordCorrect = await comparePasswords(
     password,
     currentUser.password
   );
-  if (!isPasswordCorrect) {
-    return ApiError.BadRequest("Wrong username or password");
-  }
+  if (!isPasswordCorrect) ApiError.BadRequest("Wrong username or password");
   return createToken({ id: currentUser._id }, secret);
 };
 

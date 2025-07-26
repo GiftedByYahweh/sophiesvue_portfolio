@@ -11,7 +11,7 @@ import { categoryRepository } from "./categoryRepository.js";
 const createCategory = async (parts, { db, fileLoader }) => {
   const { file, title } = await fileLoader.read(parts);
   const alreadyExist = await categoryRepository(db).findByTitle(title);
-  if (alreadyExist) throw new Error("Дана категорія вжу існує");
+  if (alreadyExist) ApiError.Conflict("Дана категорія вжу існує");
   const filePath = await fileLoader.loadFile(file);
   const newCategory = await categoryRepository(db).createOne({
     title: title,
@@ -40,11 +40,11 @@ const deleteCategory = async (
   return category;
 };
 
-const getAll = async (db) => {
+const getAll = async ({ db }) => {
   return await categoryRepository(db).getAll();
 };
 
-const getTitles = async (db) => {
+const getTitles = async ({ db }) => {
   return await categoryRepository(db).getTitles();
 };
 
@@ -62,7 +62,7 @@ export const categoryService = (db, fl) => {
         categoryFileLoader,
         collectionsFileLoader,
       }),
-    getAll: () => getAll(db),
-    getTitles: () => getTitles(db),
+    getAll: () => getAll({ db }),
+    getTitles: () => getTitles({ db }),
   };
 };
