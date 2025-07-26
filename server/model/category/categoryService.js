@@ -3,9 +3,11 @@ import {
   ALBUM_FOLDER,
   CATEGORIES_FOLDER,
   COLLECTIONS_FOLDER,
+  PRICE_FOLDER,
 } from "../../utils/fileFolders.js";
 import { albumRepository } from "../album/albumRepository.js";
 import { collectionsRepository } from "../collection/collectionsRepository.js";
+import { priceRepository } from "../price/priceRepository.js";
 import { categoryRepository } from "./categoryRepository.js";
 
 const createCategory = async (parts, { db, fileLoader }) => {
@@ -20,23 +22,22 @@ const createCategory = async (parts, { db, fileLoader }) => {
   return newCategory;
 };
 
-const deleteCategory = async (
-  categoryId,
-  { db, albumFileLoader, categoryFileLoader, collectionsFileLoader }
-) => {
+const deleteCategory = async (categoryId, { db, fileLoaders }) => {
   const collections =
     await collectionsRepository(db).deleteByCategoryId(categoryId);
   for (const collection of collections) {
-    await collectionsFileLoader.deleteFile(collection.photo);
+    await fileLoaders.collection.deleteFile(collection?.photo);
     const albums = await albumRepository(db).deleteByCollectionId(
       collection?._id
     );
     for (const album of albums) {
-      await albumFileLoader.deleteFile(album.photo);
+      await fileLoaders.album.deleteFile(album?.photo);
     }
   }
   const category = await categoryRepository(db).deleteById(categoryId);
-  await categoryFileLoader.deleteFile(category.photo);
+  const price = await priceRepository(db).deleteByCategory(category.title);
+  await fileLoaders.price.deleteFile(price?.photo);
+  await fileLoaders.category.deleteFile(category.photo);
   return category;
 };
 
@@ -49,19 +50,16 @@ const getTitles = async ({ db }) => {
 };
 
 export const categoryService = (db, fl) => {
-  const categoryFileLoader = fl.create(CATEGORIES_FOLDER);
-  const collectionsFileLoader = fl.create(COLLECTIONS_FOLDER);
-  const albumFileLoader = fl.create(ALBUM_FOLDER);
+  const fileLoaders = {
+    category: fl.create(CATEGORIES_FOLDER),
+    collection: fl.create(COLLECTIONS_FOLDER),
+    album: fl.create(ALBUM_FOLDER),
+    price: fl.create(PRICE_FOLDER),
+  };
   return {
     create: (parts) =>
-      createCategory(parts, { db, fileLoader: categoryFileLoader }),
-    delete: (categoryId) =>
-      deleteCategory(categoryId, {
-        db,
-        albumFileLoader,
-        categoryFileLoader,
-        collectionsFileLoader,
-      }),
+      createCategory(parts, { db, fileLoader: fileLoaders.category }),
+    delete: (categoryId) => deleteCategory(categoryId, { db, fileLoaders }),
     getAll: () => getAll({ db }),
     getTitles: () => getTitles({ db }),
   };

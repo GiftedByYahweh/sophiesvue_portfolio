@@ -35,5 +35,9 @@ export const priceRepository = (mongo) => {
       );
       return updated;
     },
+    async deleteByCategory(category) {
+      const deleted = await priceModel.findOneAndDelete({ category });
+      return deleted;
+    },
   };
 };

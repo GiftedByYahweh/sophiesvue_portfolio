@@ -32,6 +32,7 @@ export class FileLoader {
   }
 
   async deleteFile(filePath) {
+    if (!filePath) return;
     await fs.promises.unlink(filePath, (err) => console.log(err));
   }
 
