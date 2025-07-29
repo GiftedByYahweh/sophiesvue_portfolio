@@ -36,8 +36,8 @@
     return !!photoName.value
   })
 
-  const onCardClick = (title) => {
-    emit("onCardClick", title)
+  const onCardClick = (title, id) => {
+    emit("onCardClick", title, id)
   }
 
   const onPopupOpen = (id, name) => {
@@ -70,7 +70,7 @@
         :title="photo.title"
         :square="square"
         @delete="onPopupOpen(photo._id, photo.title)"
-        @click="onCardClick(photo.title)"
+        @click="onCardClick(photo.title, photo._id)"
       />
     </TransitionGroup>
     <ComfirmPopup
