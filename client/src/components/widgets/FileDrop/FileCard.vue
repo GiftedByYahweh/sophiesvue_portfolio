@@ -14,7 +14,7 @@
   })
 
   const photoUrl = computed(() => {
-    if (typeof photo === "string") return `${API}/${photo}`
+    if (typeof photo === "string") return photo
     return URL.createObjectURL(photo)
   })
 

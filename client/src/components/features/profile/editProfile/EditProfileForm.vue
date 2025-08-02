@@ -1,7 +1,9 @@
 <script setup>
+  import AppLoader from "@/components/shared/AppLoader.vue"
+  import AppText from "@/components/shared/AppText.vue"
   import { FileDrop } from "@/components/widgets"
   import { editProfile } from "@/services/profile"
-  import { QueryClient, useMutation, useQueryClient } from "@tanstack/vue-query"
+  import { useMutation, useQueryClient } from "@tanstack/vue-query"
   import { ref, computed } from "vue"
 
   const queryClient = useQueryClient()
@@ -58,10 +60,14 @@
     </div>
     <div class="btns">
       <button class="secondary" @click="$emit('close')">Close</button>
+      <div v-if="isPending" class="loading-box">
+        <AppLoader />
+      </div>
+      <AppText v-if="error">{{ error }}</AppText>
       <button
         type="submit"
         class="primary"
-        :disabled="notEnabled"
+        :disabled="notEnabled || isPending"
         @click="onEdit"
       >
         Save
@@ -94,5 +100,9 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+  }
+  .loading-box {
+    position: relative;
+    max-width: 100px;
   }
 </style>
