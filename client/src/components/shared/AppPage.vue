@@ -16,7 +16,7 @@
 
   @media screen and (max-width: 800px) {
     .page {
-      padding: calc(var(--header-height) + 20px) 20px 45px 20px;
+      padding: calc(var(--mobile-header-height) + 20px) 20px 45px 20px;
     }
   }
 </style>

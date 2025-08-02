@@ -90,7 +90,8 @@
 
   @media screen and (max-width: 800px) {
     .header {
-      padding: 45px 20px;
+      padding: 23.5px 20px;
+      height: var(--mobile-header-height);
     }
     .desctop {
       display: none;

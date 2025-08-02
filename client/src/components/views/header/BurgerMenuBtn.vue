@@ -72,5 +72,9 @@
     .burger-menu__btn {
       display: none;
     }
+    .burger-menu__content {
+      height: calc(100vh - var(--mobile-header-height));
+      top: var(--mobile-header-height);
+    }
   }
 </style>
