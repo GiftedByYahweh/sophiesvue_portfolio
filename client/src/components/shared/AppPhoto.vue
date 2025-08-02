@@ -1,27 +1,14 @@
 <script setup>
-  import { computed } from "vue"
-
-  const API = import.meta.env.VITE_API_URL
-
   const { src, alt } = defineProps({
     src: String,
     alt: String,
     variant: String,
     square: Boolean,
   })
-
-  const picture = computed(() => {
-    return `${API}/${src}`
-  })
 </script>
 
 <template>
-  <img
-    :src="picture"
-    :alt="alt"
-    :class="{ square: square }"
-    class="app-photo"
-  />
+  <img :src="src" :alt="alt" :class="{ square: square }" class="app-photo" />
 </template>
 
 <style>

@@ -16,7 +16,6 @@ export default async function (fastify, opts) {
 
   fastify.decorate("authGuard", authGuard(fastify.config.JWT_SECRET));
   fastify.decorate("fileLoader", FileLoader);
-
   fastify.setErrorHandler(httpErrorHandler);
 
   await fastify.register(fastifyAutoload, {
