@@ -48,7 +48,7 @@
     height: 100vh;
     background-image: url("../assets/main.jpg");
     background-size: cover;
-    background-position: center;
+    background-position: top;
     background-repeat: no-repeat;
     background-blend-mode: darken;
   }

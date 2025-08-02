@@ -5,7 +5,7 @@ export const categoryRepository = (mongo) => {
 
   return {
     async getAll() {
-      const categories = await categoryModel.find().sort({ _id: -1 }).toArray();
+      const categories = await categoryModel.find().toArray();
       return categories;
     },
     async findById(categoryId) {
