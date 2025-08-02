@@ -6,6 +6,7 @@
   import { useAuthStore } from "@/stores/auth"
   import { removeToken } from "@/utils/localStorage"
   import { INSTAGRAM_URL } from "@/utils/consts"
+  import logoWhite from "@/assets/logoWhite.svg"
 
   const auth = useAuthStore()
 
@@ -25,7 +26,7 @@
   <footer class="footer">
     <div class="footer-content">
       <button v-if="!auth.isAuth" class="clear" @click="openAuthModal">
-        <img src="../../assets/logoWhite.svg" />
+        <img :src="logoWhite" />
       </button>
       <button v-else class="primary" @click="logout">Logout</button>
       <nav class="nav-block">

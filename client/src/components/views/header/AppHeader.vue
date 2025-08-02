@@ -4,6 +4,8 @@
   import { useRoute } from "vue-router"
   import HeaderNav from "./HeaderNav.vue"
   import BurgerMenuBtn from "./BurgerMenuBtn.vue"
+  import logoWhite from "@/assets/logoWhite.svg"
+  import logoBlack from "@/assets/logoBlack.svg"
 
   const route = useRoute()
 
@@ -16,8 +18,8 @@
   })
   const logoVariant = computed(() => {
     return route.path === RoutePaths.main.path && !isBurgerOpen.value
-      ? "logoWhite"
-      : "logoBlack"
+      ? logoWhite
+      : logoBlack
   })
 
   const toggleBurgerMenu = () => {
@@ -34,7 +36,7 @@
   <header class="header blur" :class="{ burger: isBurgerOpen }">
     <div class="content">
       <RouterLink :to="RoutePaths.main.path">
-        <img :src="`/src/assets/${logoVariant}.svg`" alt="" />
+        <img :src="logoVariant" alt="" />
       </RouterLink>
       <HeaderNav class="desctop" :text-color="textColor" />
       <BurgerMenuBtn
