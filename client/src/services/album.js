@@ -10,7 +10,7 @@ export const fetchAlbum = async (category, collection) => {
 export const createAlbums = async ({ collectionId, photos, type }) => {
   let i = 1
   const formData = new FormData()
-  const photoType = type === "horizontal" ? "horizontal" : "normal"
+  const photoType = type ? "horizontal" : "normal"
   formData.append("collectionId", collectionId)
   formData.append("type", photoType)
   for (const photo of photos) {
