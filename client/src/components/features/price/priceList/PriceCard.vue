@@ -49,7 +49,7 @@
         <div class="header">
           <AppText size="l">{{ price.category }}</AppText>
           <div class="wrapper">
-            <AppText>{{ price.price }} uah</AppText>
+            <AppText>{{ price.price }} грн/год</AppText>
             <button v-if="auth.isAuth" class="secondary" @click="onEdit(price)">
               Edit {{ price.category }}
             </button>
