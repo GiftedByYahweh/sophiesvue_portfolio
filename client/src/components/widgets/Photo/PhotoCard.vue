@@ -50,14 +50,14 @@
     height: 100%;
     object-fit: cover;
   }
-  .photo-wrapper {
+  /* .photo-wrapper {
     overflow: hidden;
-  }
+  } */
   .photo {
-    transform: scale(1);
-    transition: transform 0.4s ease;
+    /* transform: scale(1);
+    transition: transform 0.4s ease; */
   }
   .photo:hover {
-    transform: scale(1.1);
+    /* transform: scale(1.1); */
   }
 </style>
