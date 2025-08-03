@@ -17,5 +17,11 @@ export const createAlbums = async ({ collectionId, photos }) => {
   }
   const response = await apiClient.album.create(formData)
   if (!response.data) throw new Error(response.error)
+  return response.datal
+}
+
+export const delteteAlbum = async (id) => {
+  const response = await apiClient.album.delete(id)
+  if (!response.data) throw new Error(response.error)
   return response.data
 }

@@ -21,6 +21,7 @@ export const collectionApi = (transport) => ({
 export const albumApi = (transport) => ({
   getAll: (params) => transport.get(`/album?${params}`),
   create: (payload) => transport.post("/album", payload),
+  delete: (id) => transport.delete(`/album/${id}`),
 })
 
 export const profileApi = (transport) => ({

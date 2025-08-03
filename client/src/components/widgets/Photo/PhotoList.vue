@@ -41,8 +41,9 @@
   }
 
   const onPopupOpen = (id, name) => {
+    const elementName = name ?? "this element"
     photoId.value = id
-    photoName.value = name
+    photoName.value = elementName
   }
 
   const onPopupClose = () => {
@@ -53,8 +54,6 @@
     emit("onDelete", id)
     onPopupClose()
   }
-
-  console.log(listType)
 </script>
 
 <template>

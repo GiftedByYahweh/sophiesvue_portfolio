@@ -18,10 +18,17 @@ const create = async (parts, { db, fileLoader }) => {
   return collectionId;
 };
 
+const deleteAlbum = async (id, { db, fileLoader }) => {
+  const deletedCategory = await albumRepository(db).deleteById(id);
+  await fileLoader.deleteFile(deletedCategory?.photo);
+  return deletedCategory;
+};
+
 export const albumService = (db, fl) => {
   const fileLoader = fl.create(ALBUM_FOLDER);
   return {
     create: (parts) => create(parts, { db, fileLoader }),
     getAll: (collection) => getAll(collection, { db, fileLoader }),
+    delete: (id) => deleteAlbum(id, { db, fileLoader }),
   };
 };

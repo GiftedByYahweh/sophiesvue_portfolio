@@ -17,4 +17,13 @@ export default async function (fastify) {
       return { data: album };
     },
   });
+
+  fastify.delete("/album/:id", {
+    preHandler: fastify.authGuard,
+    handler: async function (req) {
+      const { id } = req.params;
+      const deleted = await service.delete(id);
+      return { data: deleted };
+    },
+  });
 }

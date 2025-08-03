@@ -1,3 +1,5 @@
+import { ObjectId } from "@fastify/mongodb";
+
 export const albumRepository = (mongo) => {
   const albumModel = mongo.collection("photos");
 
@@ -30,6 +32,12 @@ export const albumRepository = (mongo) => {
       const deleted = await albumModel.deleteMany({
         categoryId,
         collectionId,
+      });
+      return deleted;
+    },
+    async deleteById(id) {
+      const deleted = await albumModel.findOneAndDelete({
+        _id: new ObjectId(id),
       });
       return deleted;
     },
