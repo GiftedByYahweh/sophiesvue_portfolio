@@ -31,7 +31,7 @@
 </script>
 
 <template>
-  <div class="card" @click="$emit('click')">
+  <div class="card" :class="{ 'with-title': title }" @click="$emit('click')">
     <div class="photo-wrapper">
       <AppPhoto class="photo" :src="photo" :alt="title" :square="square" />
     </div>
@@ -46,6 +46,7 @@
   .card {
     cursor: pointer;
     position: relative;
+    display: flex;
     width: 100%;
     height: 100%;
   }
@@ -59,5 +60,10 @@
   }
   .photo:hover {
     transform: scale(1.1);
+  }
+  .with-title {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
 </style>
