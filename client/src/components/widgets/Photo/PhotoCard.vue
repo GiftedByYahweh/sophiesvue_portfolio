@@ -35,7 +35,7 @@
     <div class="photo-wrapper">
       <AppPhoto class="photo" :src="photo" :alt="title" :square="square" />
     </div>
-    <AppText v-if="title">{{ title }} →</AppText>
+    <AppText v-if="title" class="title">{{ title }} →</AppText>
     <button v-if="canDelete" class="close" @click.stop="onDelete">
       &times;
     </button>
@@ -48,16 +48,16 @@
     position: relative;
     width: 100%;
     height: 100%;
-    object-fit: cover;
   }
-  /* .photo-wrapper {
+  .photo-wrapper {
     overflow: hidden;
-  } */
+    height: 100%;
+  }
   .photo {
-    /* transform: scale(1);
-    transition: transform 0.4s ease; */
+    transform: scale(1);
+    transition: transform 0.4s ease;
   }
   .photo:hover {
-    /* transform: scale(1.1); */
+    transform: scale(1.1);
   }
 </style>

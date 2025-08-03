@@ -12,10 +12,11 @@ export const albumRepository = (mongo) => {
         .sort({ _id: -1 });
       return album.toArray();
     },
-    async create({ photo, collectionId }) {
+    async create({ photo, collectionId, type }) {
       const album = await albumModel.insertOne({
         photo,
         collectionId,
+        type,
       });
       return album;
     },

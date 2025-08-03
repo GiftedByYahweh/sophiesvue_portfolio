@@ -17,6 +17,7 @@
 
   const title = defineModel("title")
   const liked = defineModel("liked")
+  const horizontalPhoto = defineModel("horizontal")
   const photosModel = defineModel("photos")
 
   const notAvaliable = computed(() => {
@@ -27,6 +28,10 @@
 
   const hasLikedField = computed(() => {
     return liked.value !== undefined
+  })
+
+  const hasHorizontalField = computed(() => {
+    return horizontalPhoto.value !== undefined
   })
 
   const onSubmit = () => {
@@ -49,9 +54,13 @@
       type="text"
       placeholder="add title"
     />
-    <div v-if="hasLikedField" class="liked-block">
+    <div v-if="hasLikedField" class="checkbox-block">
       <input v-model="liked" type="checkbox" />
       <AppText>Mark as liked</AppText>
+    </div>
+    <div v-if="hasHorizontalField" class="checkbox-block">
+      <input v-model="horizontalPhoto" type="checkbox" />
+      <AppText>Mark as horizontal photo</AppText>
     </div>
     <FileDrop v-model="photosModel" :multiple="multiple" />
     <div class="btns">
@@ -85,7 +94,7 @@
     position: relative;
     max-width: 100px;
   }
-  .liked-block {
+  .checkbox-block {
     display: flex;
     align-items: center;
     gap: 10px;

@@ -10,10 +10,14 @@ const getAll = async (collection, { db }) => {
 };
 
 const create = async (parts, { db, fileLoader }) => {
-  const { collectionId, ...files } = await fileLoader.read(parts);
+  const { collectionId, type, ...files } = await fileLoader.read(parts);
   for (const key in files) {
     const filePath = await fileLoader.loadFile(files[key]);
-    await albumRepository(db).create({ photo: filePath, collectionId });
+    await albumRepository(db).create({
+      photo: filePath,
+      collectionId,
+      type,
+    });
   }
   return collectionId;
 };

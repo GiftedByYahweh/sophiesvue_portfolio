@@ -36,6 +36,10 @@
     return !!photoName.value
   })
 
+  const getPhotoType = (photo) => {
+    return photo === "horizontal" ? photo : ""
+  }
+
   const onCardClick = (title, id) => {
     emit("onCardClick", title, id)
   }
@@ -68,6 +72,7 @@
         :photo="photo.photo"
         :title="photo.title"
         :square="square"
+        :class="{ horizontal: getPhotoType(photo?.type) }"
         @delete="onPopupOpen(photo._id, photo.title)"
         @click="onCardClick(photo.title, photo._id)"
       />
@@ -89,16 +94,25 @@
     gap: 20px;
     width: 100%;
   }
-  .mansory {
-    column-width: 625px;
-    column-gap: 16px;
-  }
-  .mansory > * {
-    margin-bottom: 16px;
-    display: inline-block;
-  }
   .list-wrapper {
     display: grid;
     place-items: center;
+  }
+  .mansory {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-flow: dense;
+    gap: 16px;
+  }
+  .mansory .horizontal {
+    grid-column: span 2;
+  }
+  @media (max-width: 768px) {
+    .mansory {
+      grid-template-columns: 1fr;
+    }
+    .mansory .horizontal {
+      grid-column: span 1;
+    }
   }
 </style>

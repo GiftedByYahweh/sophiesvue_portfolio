@@ -9,6 +9,7 @@
 
   const isVisible = defineModel("visible")
   const photosModel = ref([])
+  const type = ref(false)
 
   const route = useRoute()
   const portfolio = usePortfolioStore()
@@ -25,6 +26,7 @@
       createAlbums({
         photos: photosModel.value,
         collectionId: portfolio.currentCollectionId(route.query.collection),
+        type,
       }),
     onSuccess: onCreateSuccess,
   })
@@ -42,6 +44,7 @@
         :error="error"
         multiple
         v-model:photos="photosModel"
+        v-model:horizontal="type"
         @submit="onCreate"
         @close="close"
       />
