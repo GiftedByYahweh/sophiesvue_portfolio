@@ -26,7 +26,7 @@
       createAlbums({
         photos: photosModel.value,
         collectionId: portfolio.currentCollectionId(route.query.collection),
-        type,
+        type: type.value,
       }),
     onSuccess: onCreateSuccess,
   })
