@@ -3,7 +3,7 @@ export const priceRepository = (mongo) => {
 
   return {
     async getAll() {
-      const profile = await priceModel.find().sort({ _id: -1 }).toArray();
+      const profile = await priceModel.find().toArray();
       return profile;
     },
     async findOne(category) {
