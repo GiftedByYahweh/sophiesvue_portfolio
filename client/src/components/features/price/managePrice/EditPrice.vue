@@ -5,7 +5,6 @@
   import { editPrice } from "@/services/price"
   import { useTitles } from "@/composables/useTitles"
   import { usePortfolioStore } from "@/stores/portfolio"
-  import { textLinesToArray, textCommaToLines } from "@/utils/normalizeTextData"
 
   const emit = defineEmits({
     close: null,
@@ -20,8 +19,10 @@
     ...priceToEdit.value,
     photosModel: [priceToEdit.value.photo],
     prevPhoto: priceToEdit.value.photo,
-    description: textCommaToLines(priceToEdit.value.description),
-    importantInfo: textCommaToLines(priceToEdit.value.importantInfo),
+    description: priceToEdit.value.description,
+    importantInfo: priceToEdit.value.importantInfo,
+    description2: priceToEdit.value.description2,
+    importantInfo2: priceToEdit.value.importantInfo2,
   })
 
   const onCreateSuccess = () => {
@@ -39,8 +40,10 @@
     category: newPrice.value.category,
     photo: newPhoto.value,
     prevPhoto: newPrice.value.prevPhoto,
-    description: textLinesToArray(newPrice.value.description),
-    importantInfo: textLinesToArray(newPrice.value.importantInfo),
+    description: newPrice.value.description,
+    importantInfo: newPrice.value.importantInfo,
+    description2: newPrice.value.description2,
+    importantInfo2: newPrice.value.importantInfo2,
   })
 
   const { mutateAsync, isPending, error } = useMutation({
@@ -74,6 +77,8 @@
     v-model:photos="newPrice.photosModel"
     v-model:description="newPrice.description"
     v-model:important-info="newPrice.importantInfo"
+    v-model:description2="newPrice.description2"
+    v-model:important-info2="newPrice.importantInfo2"
     v-model:category="newPrice.category"
     :categories="portfolio.categoryTitles"
     @submit="createPrice"

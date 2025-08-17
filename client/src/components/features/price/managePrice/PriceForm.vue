@@ -1,5 +1,5 @@
 <script setup>
-  import { computed } from "vue"
+  import { computed, ref } from "vue"
   import { FileDrop } from "@/components/widgets"
   import AppLoader from "@/components/shared/AppLoader.vue"
   import AppText from "@/components/shared/AppText.vue"
@@ -20,6 +20,8 @@
   const photosModel = defineModel("photos")
   const description = defineModel("description")
   const importantInfo = defineModel("importantInfo")
+  const description2 = defineModel("description2")
+  const importantInfo2 = defineModel("importantInfo2")
   const category = defineModel("category")
 
   const buttonTitle = computed(() => {
@@ -35,6 +37,12 @@
     )
   })
 
+  const showTwo = computed(() => {
+    return category.value.toLowerCase() === "personal"
+  })
+
+  console.log(showTwo.value)
+
   const onSubmit = () => {
     emit("submit")
   }
@@ -47,7 +55,7 @@
 <template>
   <form @submit.prevent class="form">
     <AppText variant="accent">{{ error }}</AppText>
-    <div class="container">
+    <div class="container" :class="{ 'show-two': showTwo }">
       <div class="right">
         <select v-model="category">
           <option disabled value="">Category...</option>
@@ -63,13 +71,43 @@
         />
         <FileDrop v-model="photosModel" />
       </div>
-      <div class="textarea-wrapper">
+      <div v-if="!showTwo" class="textarea-wrapper">
         <textarea v-model="description" type="text" placeholder="description" />
         <textarea
           v-model="importantInfo"
           type="text"
           placeholder="important info"
         />
+      </div>
+      <div v-else class="textarea-wrapper">
+        <div>
+          <textarea
+            class="textarea-many"
+            v-model="description"
+            type="text"
+            placeholder="description 1 hour"
+          />
+          <textarea
+            class="textarea-many"
+            v-model="description2"
+            type="text"
+            placeholder="description 2 hours"
+          />
+        </div>
+        <div>
+          <textarea
+            class="textarea-many"
+            v-model="importantInfo"
+            type="text"
+            placeholder="important info 1 hour"
+          />
+          <textarea
+            class="textarea-many"
+            v-model="importantInfo2"
+            type="text"
+            placeholder="important info 2 hours"
+          />
+        </div>
       </div>
     </div>
     <div class="btns">
@@ -114,7 +152,15 @@
     gap: 10px;
   }
   .right {
-    display: grid;
+    display: flex;
+    flex-direction: column;
     gap: 10px;
+  }
+  .show-two {
+    min-height: 650px;
+  }
+  .textarea-many {
+    height: 50%;
+    width: 100%;
   }
 </style>

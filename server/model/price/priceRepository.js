@@ -10,24 +10,28 @@ export const priceRepository = (mongo) => {
       const profile = await priceModel.findOne({ category });
       return profile;
     },
-    async create({ price, description, importantInfo, photo, category }) {
+    async create({ price, description, importantInfo, description2, photo, importantInfo2, category }) {
       const newPrice = await priceModel.insertOne({
         price,
         description,
         importantInfo,
+        description2,
+        importantInfo2,
         photo,
         category,
       });
       return newPrice;
     },
-    async edit({ price, description, importantInfo, photo, category }) {
+    async edit({ price, description, description2, importantInfo, importantInfo2, photo, category }) {
       const updated = await priceModel.findOneAndUpdate(
         { category: category },
         {
           $set: {
             price,
             description,
+            description2,
             importantInfo,
+            importantInfo2,
             photo,
             category,
           },

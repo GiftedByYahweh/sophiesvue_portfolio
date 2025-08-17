@@ -3,7 +3,7 @@ import { PRICE_FOLDER } from "../../utils/fileFolders.js";
 import { priceRepository } from "./priceRepository.js";
 
 const createPrice = async (parts, { db, fileLoader }) => {
-  const { file, price, description, importantInfo, category } =
+  const { file, price, description, description2, importantInfo2, importantInfo, category } =
     await fileLoader.read(parts);
   const priceExist = await priceRepository(db).findOne(category);
   if (priceExist) ApiError.Conflict("This price already exist");
@@ -12,6 +12,8 @@ const createPrice = async (parts, { db, fileLoader }) => {
     category,
     importantInfo,
     description,
+    description2,
+    importantInfo2,
     price,
     photo: filePath,
   });
@@ -19,13 +21,18 @@ const createPrice = async (parts, { db, fileLoader }) => {
 };
 
 const editPrice = async (parts, { db, fileLoader }) => {
-  const { file, prevPhoto, price, description, importantInfo, category } =
+  const { file, prevPhoto, price, description, description2, importantInfo, importantInfo2, category } =
     await fileLoader.read(parts);
   const filePath = await fileLoader.loadFile(file);
+
+  console.log(description, importantInfo);
+
   const editedPrice = await priceRepository(db).edit({
     category,
     importantInfo,
     description,
+    description2,
+    importantInfo2,
     price,
     photo: filePath || prevPhoto,
   });

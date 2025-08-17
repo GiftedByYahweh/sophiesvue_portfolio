@@ -3,8 +3,14 @@
   import AppText from "@/components/shared/AppText.vue"
   import { RoutePaths } from "@/router/routes"
   import { useAuthStore } from "@/stores/auth"
-  import { computed } from "vue"
+  import { computed, ref } from "vue"
   import { useRouter } from "vue-router"
+  import SwitcherButton from "./SwitcherButton.vue"
+
+  const SWITCHER_VARIANTS = {
+    ONE: "1 год",
+    TWO: "2 год",
+  }
 
   const emit = defineEmits({
     editPrice: null,
@@ -20,6 +26,12 @@
   const router = useRouter()
   const auth = useAuthStore()
 
+  const state = ref(SWITCHER_VARIANTS.ONE)
+
+  const isSwitcherVisible = computed(() => {
+    return price.category.toLowerCase() === "personal"
+  })
+
   const moveToCategory = () => {
     router.push({
       path: RoutePaths.portfolio.path,
@@ -28,11 +40,17 @@
   }
 
   const normalizedDescription = computed(() => {
-    return price.description.split(",")
+    if (isSwitcherVisible.value && state.value === SWITCHER_VARIANTS.TWO) {
+      if (isSwitcherVisible.value) return price.description2.split("\n")
+    }
+    return price.description.split("\n")
   })
 
   const normalizedInfo = computed(() => {
-    return price.importantInfo.split(",")
+    if (isSwitcherVisible.value && state.value === SWITCHER_VARIANTS.TWO) {
+      return price.importantInfo2.split("\n")
+    }
+    return price.importantInfo.split("\n")
   })
 
   const onEdit = (dataToEdit) => {
@@ -48,6 +66,12 @@
       <div class="info">
         <div class="header">
           <AppText size="l" uppercase>{{ price.category }}</AppText>
+          <SwitcherButton
+            v-if="isSwitcherVisible"
+            class="desctop"
+            v-model="state"
+            :options="[SWITCHER_VARIANTS.ONE, SWITCHER_VARIANTS.TWO]"
+          />
           <div class="wrapper">
             <AppText>{{ price.price }} грн/год</AppText>
             <button v-if="auth.isAuth" class="secondary" @click="onEdit(price)">
@@ -55,6 +79,12 @@
             </button>
           </div>
         </div>
+        <SwitcherButton
+          v-if="isSwitcherVisible"
+          class="mobile"
+          v-model="state"
+          :options="[SWITCHER_VARIANTS.ONE, SWITCHER_VARIANTS.TWO]"
+        />
         <div class="details">
           <AppText v-for="text in normalizedDescription">
             ◦ {{ text }}
@@ -113,12 +143,22 @@
     align-items: center;
     gap: 10px;
   }
+  .mobile {
+    display: none;
+  }
   @media screen and (max-width: 768px) {
     .card {
       grid-template-columns: none;
       grid-template-areas:
         "photo"
         "content";
+    }
+    .desctop {
+      display: none;
+    }
+    .mobile {
+      display: flex;
+      width: 100%;
     }
   }
 </style>

@@ -5,7 +5,6 @@
   import { addPrice } from "@/services/price"
   import { useTitles } from "@/composables/useTitles"
   import { usePortfolioStore } from "@/stores/portfolio"
-  import { textLinesToArray } from "@/utils/normalizeTextData"
 
   const emit = defineEmits({
     close: null,
@@ -17,7 +16,9 @@
 
   const price = ref("")
   const description = ref("")
+  const description2 = ref("")
   const importantInfo = ref("")
+  const importantInfo2 = ref("")
   const category = ref("")
   const photosModel = ref([])
 
@@ -30,8 +31,10 @@
     price: price.value,
     category: category.value,
     photo: photosModel.value[0],
-    description: textLinesToArray(description.value),
-    importantInfo: textLinesToArray(importantInfo.value),
+    description: description.value,
+    importantInfo: importantInfo.value,
+    description2: description2.value,
+    importantInfo2: importantInfo2.value,
   })
 
   const { mutateAsync, isPending, error } = useMutation({
@@ -43,7 +46,7 @@
     try {
       await mutateAsync()
     } catch (e) {
-      console.log()
+      console.log(e)
     }
   }
 
@@ -65,6 +68,8 @@
     v-model:photos="photosModel"
     v-model:description="description"
     v-model:important-info="importantInfo"
+    v-model:description2="description2"
+    v-model:important-info2="importantInfo2"
     :categories="portfolio.categoryTitles"
     v-model:category="category"
     @submit="createPrice"

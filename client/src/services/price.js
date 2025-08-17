@@ -12,12 +12,16 @@ export const addPrice = async ({
   photo,
   description,
   importantInfo,
+  description2,
+  importantInfo2,
 }) => {
   const formData = new FormData()
   formData.append("price", price)
   formData.append("file", photo)
   formData.append("description", description)
+  formData.append("description2", description2)
   formData.append("importantInfo", importantInfo)
+  formData.append("importantInfo2", importantInfo2)
   formData.append("category", category)
   const response = await apiClient.price.create(formData)
   if (!response.data) throw new Error(response.error)
@@ -30,14 +34,18 @@ export const editPrice = async ({
   photo,
   prevPhoto,
   description,
+  description2,
   importantInfo,
+  importantInfo2,
 }) => {
   const formData = new FormData()
   formData.append("price", price)
   formData.append("file", photo)
   formData.append("prevPhoto", prevPhoto)
   formData.append("description", description)
+  formData.append("description2", description2)
   formData.append("importantInfo", importantInfo)
+  formData.append("importantInfo2", importantInfo2)
   formData.append("category", category)
   const response = await apiClient.price.edit(formData)
   if (!response.data) throw new Error(response.error)
