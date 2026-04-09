@@ -36,8 +36,7 @@
 <style scoped>
   .toggle {
     display: flex;
-    background: #e5e5e5;
-    padding: 3px;
+    border: 1px solid var(--accent-color);
     width: fit-content;
     cursor: pointer;
     user-select: none;
@@ -53,8 +52,7 @@
   }
 
   .toggle-option.active {
-    background: white;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-    color: black;
+    background: var(--accent-color);
+    color: var(--primary-color);
   }
 </style>
