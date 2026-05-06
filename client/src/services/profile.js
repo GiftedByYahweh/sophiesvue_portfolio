@@ -5,14 +5,3 @@ export const fetchProfile = async () => {
   if (!response.data) throw new Error(response.error)
   return response.data
 }
-
-export const editProfile = async (profile) => {
-  const formData = new FormData()
-  formData.append("text", profile.text)
-  formData.append("file", profile.photo)
-  formData.append("prevPhoto", profile.prevPhoto)
-  formData.append("inst", profile.inst)
-  const response = await apiClient.profile.edit(formData)
-  if (!response.data) throw new Error(response.error)
-  return response.data
-}

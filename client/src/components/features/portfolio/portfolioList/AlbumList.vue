@@ -1,22 +1,16 @@
 <script setup>
-  import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query"
-  import { delteteAlbum, fetchAlbum } from "@/services/album"
+  import { useQuery } from "@tanstack/vue-query"
+  import { fetchAlbum } from "@/services/album"
   import { useRoute } from "vue-router"
   import { computed, onMounted } from "vue"
   import { useTitles } from "@/composables/useTitles"
   import { PhotoList } from "@/components/widgets"
 
-  const queryClient = useQueryClient()
   const { getCollectionTitles } = useTitles()
   const route = useRoute()
 
-  const currentCollection = computed(() => {
-    return route.query.collection
-  })
-
-  const currentCategory = computed(() => {
-    return route.query.category
-  })
+  const currentCollection = computed(() => route.query.collection)
+  const currentCategory = computed(() => route.query.category)
 
   const { data, error, isLoading } = useQuery({
     queryKey: ["albumList", currentCollection.value],
@@ -28,18 +22,6 @@
   onMounted(async () => {
     await getCollectionTitles(currentCategory.value)
   })
-
-  const { mutateAsync } = useMutation({
-    mutationFn: (id) => delteteAlbum(id),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["albumList"] })
-    },
-  })
-
-  const onDelete = async (id) => {
-    console.log("sldfjbsd")
-    await mutateAsync(id)
-  }
 </script>
 
 <template>
@@ -47,8 +29,6 @@
     :data="data"
     :is-loading="isLoading"
     :error="error"
-    portfolio="album"
     list-type="mansory"
-    @on-delete="onDelete"
   />
 </template>

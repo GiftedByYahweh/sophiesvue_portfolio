@@ -1,27 +1,10 @@
 <script setup>
-  import { ref } from "vue"
-  import {
-    CategoriesList,
-    CreateCategory,
-  } from "@/components/features/portfolio"
-  import { AdminPanel } from "@/components/widgets"
-
-  const isVisible = ref(false)
-
-  const openPopup = () => {
-    isVisible.value = true
-  }
+  import { CategoriesList } from "@/components/features/portfolio"
 </script>
 
 <template>
   <div class="categories">
-    <AdminPanel
-      title="Categories"
-      button-title="New Category"
-      @click="openPopup"
-    />
-    <CategoriesList v-model:visible="isVisible" />
-    <CreateCategory v-model:visible="isVisible" />
+    <CategoriesList />
   </div>
 </template>
 

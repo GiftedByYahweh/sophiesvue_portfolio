@@ -1,25 +1,10 @@
 <script setup>
-  import { ref } from "vue"
-  import { AlbumList, AddAlbum } from "@/components/features/portfolio"
-  import { AdminPanel } from "@/components/widgets"
-
-  const isVisible = ref(false)
-
-  const openPopup = () => {
-    isVisible.value = true
-  }
+  import { AlbumList } from "@/components/features/portfolio"
 </script>
 
 <template>
   <div class="album">
-    <AdminPanel
-      class="panel"
-      title="Album"
-      button-title="New Album"
-      @click="openPopup"
-    />
-    <AlbumList v-model:visible="isVisible" />
-    <AddAlbum v-model:visible="isVisible" />
+    <AlbumList />
   </div>
 </template>
 
@@ -27,8 +12,5 @@
   .album {
     display: grid;
     place-items: center;
-  }
-  .panel {
-    width: 100%;
   }
 </style>

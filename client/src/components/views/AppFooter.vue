@@ -1,34 +1,16 @@
 <script setup>
-  import { ref } from "vue"
-  import { RoutePaths } from "@/router/routes"
   import AppText from "@/components/shared/AppText.vue"
-  import { AuthByName } from "@/components/features/auth"
-  import { useAuthStore } from "@/stores/auth"
-  import { removeToken } from "@/utils/localStorage"
+  import { RoutePaths } from "@/router/routes"
   import { INSTAGRAM_URL } from "@/utils/consts"
   import logoWhite from "@/assets/logoWhite.svg"
-
-  const auth = useAuthStore()
-
-  const authModal = ref(false)
-
-  const openAuthModal = () => {
-    authModal.value = true
-  }
-
-  const logout = () => {
-    auth.onLogout()
-    removeToken()
-  }
 </script>
 
 <template>
   <footer class="footer">
     <div class="footer-content">
-      <button v-if="!auth.isAuth" class="clear" @click="openAuthModal">
+      <div>
         <img :src="logoWhite" />
-      </button>
-      <button v-else class="primary" @click="logout">Logout</button>
+      </div>
       <nav class="nav-block">
         <ul class="nav-list">
           <li>
@@ -73,8 +55,6 @@
         </AppText>
       </nav>
     </div>
-
-    <AuthByName v-model:visible="authModal" />
   </footer>
 </template>
 

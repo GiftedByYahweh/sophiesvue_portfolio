@@ -1,27 +1,10 @@
 <script setup>
-  import { ref } from "vue"
-  import {
-    CollectionsList,
-    CreateCollection,
-  } from "@/components/features/portfolio"
-  import { AdminPanel } from "@/components/widgets"
-
-  const isVisible = ref(false)
-
-  const openPopup = () => {
-    isVisible.value = true
-  }
+  import { CollectionsList } from "@/components/features/portfolio"
 </script>
 
 <template>
   <div class="collections">
-    <AdminPanel
-      title="Collections"
-      button-title="New Collection"
-      @click="openPopup"
-    />
-    <CollectionsList v-model:visible="isVisible" />
-    <CreateCollection v-model:visible="isVisible" />
+    <CollectionsList />
   </div>
 </template>
 

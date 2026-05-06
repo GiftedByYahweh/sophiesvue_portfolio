@@ -27,8 +27,7 @@
   }
 
   const onRouteCLick = () => {
-    console.log("dfdf")
-    if (isBurgerOpen) isBurgerOpen.value = false
+    if (isBurgerOpen.value) isBurgerOpen.value = false
   }
 </script>
 

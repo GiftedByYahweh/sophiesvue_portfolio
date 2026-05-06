@@ -1,40 +1,27 @@
 <script setup>
-  import { computed, ref } from "vue"
+  import { computed } from "vue"
   import PhotoCard from "./PhotoCard.vue"
   import AppLoader from "@/components/shared/AppLoader.vue"
-  import ComfirmPopup from "./ComfirmPopup.vue"
 
   const {
     data = [],
     isLoading,
     error,
     square,
-    portfolio,
     listType = "normal",
   } = defineProps({
     data: Array,
     isLoading: Boolean,
     error: Error,
     square: Boolean,
-    portfolio: String,
     listType: String,
   })
 
   const emit = defineEmits({
     onCardClick: null,
-    onDelete: null,
   })
 
-  const photoName = ref("")
-  const photoId = ref("")
-
-  const isEmpty = computed(() => {
-    return !data.length
-  })
-
-  const popupDelete = computed(() => {
-    return !!photoName.value
-  })
+  const isEmpty = computed(() => !data.length)
 
   const getPhotoType = (photo) => {
     return photo === "horizontal" ? photo : ""
@@ -42,21 +29,6 @@
 
   const onCardClick = (title, id) => {
     emit("onCardClick", title, id)
-  }
-
-  const onPopupOpen = (id, name) => {
-    const elementName = name ?? "this element"
-    photoId.value = id
-    photoName.value = elementName
-  }
-
-  const onPopupClose = () => {
-    photoName.value = ""
-  }
-
-  const onDelete = async (id) => {
-    emit("onDelete", id)
-    onPopupClose()
   }
 </script>
 
@@ -73,17 +45,9 @@
         :title="photo.title"
         :square="square"
         :class="{ horizontal: getPhotoType(photo?.type) }"
-        @delete="onPopupOpen(photo._id, photo.title)"
         @click="onCardClick(photo.title, photo._id)"
       />
     </TransitionGroup>
-    <ComfirmPopup
-      v-model="popupDelete"
-      :name="photoName"
-      :portfolio="portfolio"
-      @delete="onDelete(photoId)"
-      @close="onPopupClose"
-    />
   </div>
 </template>
 

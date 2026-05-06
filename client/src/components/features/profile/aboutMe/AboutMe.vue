@@ -4,7 +4,7 @@
   import AppLoader from "@/components/shared/AppLoader.vue"
   import { computed } from "vue"
 
-  const { about, isLoading, error } = defineProps({
+  const { about, isLoading } = defineProps({
     about: Object,
     isLoading: Boolean,
     error: String,

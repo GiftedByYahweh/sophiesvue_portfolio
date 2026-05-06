@@ -1,6 +1,6 @@
 <script setup>
-  import { useQuery, useMutation, useQueryClient } from "@tanstack/vue-query"
-  import { delteteCollection, fetchCollections } from "@/services/collections"
+  import { useQuery } from "@tanstack/vue-query"
+  import { fetchCollections } from "@/services/collections"
   import { useRoute, useRouter } from "vue-router"
   import { computed, onMounted } from "vue"
   import { PhotoList, SwitcherContainer } from "@/components/widgets"
@@ -9,32 +9,17 @@
 
   const { getCategoryTitles } = useTitles()
 
-  const queryClient = useQueryClient()
-
   const route = useRoute()
   const router = useRouter()
   const portfolio = usePortfolioStore()
 
-  const currentCategory = computed(() => {
-    return route.query.category
-  })
+  const currentCategory = computed(() => route.query.category)
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["collections", currentCategory],
     queryFn: () => fetchCollections(currentCategory.value),
     retry: false,
   })
-
-  const { mutateAsync } = useMutation({
-    mutationFn: (id) => delteteCollection(id),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["collections"] })
-    },
-  })
-
-  const onDelete = async (id) => {
-    await mutateAsync(id)
-  }
 
   const goToAlbum = (collection) => {
     router.push({
@@ -64,15 +49,6 @@
       :is-loading="isLoading"
       :error="error"
       @on-card-click="goToAlbum"
-      @on-delete="onDelete"
     />
   </SwitcherContainer>
 </template>
-
-<style scoped>
-  .catigories {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 426px));
-    gap: 20px;
-  }
-</style>

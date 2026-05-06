@@ -1,44 +1,28 @@
 <script setup>
-  import { computed } from "vue"
   import AppPhoto from "@/components/shared/AppPhoto.vue"
   import AppText from "@/components/shared/AppText.vue"
-  import { useAuthStore } from "@/stores/auth"
-  import { useRoute } from "vue-router"
-  import { RoutePaths } from "@/router/routes"
 
-  const route = useRoute()
-
-  const emit = defineEmits({
+  defineEmits({
     click: null,
-    delete: null,
   })
 
-  const { title, photo } = defineProps({
+  defineProps({
     title: String,
     photo: String,
     square: Boolean,
   })
-
-  const auth = useAuthStore()
-
-  const canDelete = computed(() => {
-    return auth.isAuth && route.path !== RoutePaths.main.path
-  })
-
-  const onDelete = () => {
-    emit("delete")
-  }
 </script>
 
 <template>
-  <div class="card" :class="{ 'with-title': title }" @click="$emit('click')">
+  <div
+    class="card"
+    :class="{ 'with-title': title }"
+    @click="$emit('click')"
+  >
     <div class="photo-wrapper">
       <AppPhoto class="photo" :src="photo" :alt="title" :square="square" />
     </div>
     <AppText v-if="title" class="title">{{ title }} →</AppText>
-    <button v-if="canDelete" class="close" @click.stop="onDelete">
-      &times;
-    </button>
   </div>
 </template>
 
