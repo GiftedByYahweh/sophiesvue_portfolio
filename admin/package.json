@@ -8,7 +8,7 @@
     "dev:client": "npm --workspace client run start",
     "dev:server": "npm --workspace server run dev",
     "build:client": "npm --workspace client run build",
-    "build:api": "esbuild server/vercel-entry.ts --bundle --platform=node --format=esm --target=node22 --packages=external --tsconfig=tsconfig.json --outfile=api/[...all].mjs",
+    "build:api": "esbuild server/vercel-entry.ts --bundle --platform=node --format=esm --target=node22 --packages=external --tsconfig=tsconfig.json --outfile=api/server.mjs",
     "vercel-build": "npm run build:api && npm run build:client"
   },
   "devDependencies": {
