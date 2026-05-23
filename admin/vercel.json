@@ -3,13 +3,8 @@
   "framework": null,
   "buildCommand": "npm run vercel-build",
   "outputDirectory": "client/dist",
-  "functions": {
-    "api/[...all].mjs": {
-      "maxDuration": 10,
-      "memory": 1024
-    }
-  },
   "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/ping" },
     { "source": "/((?!api/).*)", "destination": "/index.html" }
   ]
 }
