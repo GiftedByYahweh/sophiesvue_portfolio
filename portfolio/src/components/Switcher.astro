@@ -1,0 +1,56 @@
+---
+interface Props {
+    prevHref: string | null;
+    nextHref: string | null;
+    prevLabel?: string;
+    nextLabel?: string;
+}
+
+const {
+    prevHref,
+    nextHref,
+    prevLabel = "Prev",
+    nextLabel = "Next",
+} = Astro.props;
+
+const visible = Boolean(prevHref || nextHref);
+---
+
+{
+    visible && (
+        <nav class="switcher" aria-label="Section navigation">
+            {prevHref ? (
+                <a
+                    href={prevHref}
+                    rel="prev"
+                    class="text-uppercase text-hover"
+                >
+                    ← {prevLabel}
+                </a>
+            ) : (
+                <span aria-hidden="true" />
+            )}
+            {nextHref ? (
+                <a
+                    href={nextHref}
+                    rel="next"
+                    class="text-uppercase text-hover"
+                >
+                    {nextLabel} →
+                </a>
+            ) : (
+                <span aria-hidden="true" />
+            )}
+        </nav>
+    )
+}
+
+<style>
+    .switcher {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        margin-top: 30px;
+    }
+</style>

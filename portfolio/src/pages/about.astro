@@ -1,0 +1,65 @@
+---
+import Default from "../layouts/Default.astro";
+import { getProfile, getSettings } from "../lib/portfolio";
+
+const profile = await getProfile();
+const settings = await getSettings();
+
+let instagramName = settings.instLink;
+try {
+    instagramName =
+        new URL(settings.instLink).pathname.split("/")[1] || settings.instLink;
+} catch {
+    // fall back to raw string if not a URL
+}
+---
+
+<Default title="About me">
+    <div class="about-me">
+        <img src={profile.photo} alt="Portrait" class="photo" />
+        <div class="info">
+            <p class="text">{profile.text}</p>
+            <div class="contact">
+                <p class="formatted-text">{profile.contactInfo}</p>
+                <p>
+                    instagram —
+                    <a
+                        href={settings.instLink}
+                        target="_blank"
+                        rel="noopener"
+                        class="text-accent text-underline"
+                    >
+                        @{instagramName}
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+</Default>
+
+<style>
+    .about-me {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 40px;
+        height: 100%;
+    }
+    .photo {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .info {
+        display: grid;
+        gap: 40px;
+        grid-template-rows: 1fr auto;
+    }
+    .text,
+    .formatted-text {
+        white-space: pre-wrap;
+    }
+    .contact {
+        display: grid;
+        gap: 30px;
+    }
+</style>

@@ -1,0 +1,58 @@
+---
+interface Props {
+    message?: string;
+}
+
+const { message = "Тут поки що немає фото" } = Astro.props;
+---
+
+<div class="empty">
+    <svg
+        class="icon"
+        width="80"
+        height="80"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.25"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+    >
+        <path
+            d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"
+        ></path>
+        <circle cx="12" cy="13" r="4"></circle>
+    </svg>
+    <p class="text-uppercase">{message}</p>
+</div>
+
+<style>
+    .empty {
+        width: 100%;
+        min-height: calc(100vh - 240px);
+        display: grid;
+        place-items: center;
+        align-content: center;
+        gap: 24px;
+        background: var(--neutral-color);
+        color: var(--secondary-color);
+        text-align: center;
+        padding: 40px 20px;
+    }
+    .icon {
+        display: block;
+        width: 80px;
+        height: 80px;
+        opacity: 0.4;
+    }
+    @media screen and (max-width: 800px) {
+        .empty {
+            min-height: calc(100vh - 200px);
+        }
+        .icon {
+            width: 60px;
+            height: 60px;
+        }
+    }
+</style>

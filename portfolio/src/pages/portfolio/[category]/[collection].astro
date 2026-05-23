@@ -1,0 +1,88 @@
+---
+import type { GetStaticPaths } from "astro";
+import Default from "../../../layouts/Default.astro";
+import Switcher from "../../../components/Switcher.astro";
+import PhotoCard from "../../../components/PhotoCard.astro";
+import Breadcrumb from "../../../components/Breadcrumb.astro";
+import Empty from "../../../components/Empty.astro";
+import { getNeighbours, getSnapshot } from "../../../lib/portfolio";
+import type { Album, Category, Collection } from "../../../lib/types";
+
+export const getStaticPaths = (async () => {
+    const { categories } = await getSnapshot();
+    return categories.flatMap((category) =>
+        category.collections.map((collection) => ({
+            params: { category: category.slug, collection: collection.slug },
+            props: { category, collection, albums: collection.albums },
+        })),
+    );
+}) satisfies GetStaticPaths;
+
+interface Props {
+    category: Category;
+    collection: Collection;
+    albums: Album[];
+}
+
+const { category, collection, albums } = Astro.props;
+const { prev, next } = getNeighbours(category.collections, collection.slug);
+---
+
+<Default title={`${collection.name} — ${category.name}`}>
+    <Breadcrumb
+        items={[
+            { label: category.name, href: `/portfolio/${category.slug}` },
+            { label: collection.name },
+        ]}
+    />
+    {
+        albums.length === 0 ? (
+            <Empty message="У цій колекції поки немає фото" />
+        ) : (
+            <ul class="grid masonry">
+                {albums.map((album) => (
+                    <li
+                        class:list={[
+                            { horizontal: album.type === "horizontal" },
+                        ]}
+                    >
+                        <PhotoCard
+                            src={album.photoLink}
+                            alt={album.name}
+                            horizontal={album.type === "horizontal"}
+                        />
+                    </li>
+                ))}
+            </ul>
+        )
+    }
+    <Switcher
+        prevHref={prev ? `/portfolio/${category.slug}/${prev.slug}` : null}
+        nextHref={next ? `/portfolio/${category.slug}/${next.slug}` : null}
+        prevLabel={prev?.name}
+        nextLabel={next?.name}
+    />
+</Default>
+
+<style>
+    .grid {
+        display: grid;
+        gap: 16px;
+        width: 100%;
+    }
+    .masonry {
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-flow: dense;
+    }
+    .masonry .horizontal {
+        grid-column: span 2;
+    }
+    @media (max-width: 768px) {
+        .masonry {
+            grid-template-columns: 1fr;
+        }
+        .masonry .horizontal {
+            grid-column: span 1;
+        }
+    }
+</style>

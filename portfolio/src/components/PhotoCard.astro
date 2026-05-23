@@ -1,0 +1,86 @@
+---
+interface Props {
+    src: string;
+    alt: string;
+    href?: string;
+    title?: string;
+    square?: boolean;
+    horizontal?: boolean;
+    portrait?: boolean;
+}
+
+const {
+    src,
+    alt,
+    href,
+    title,
+    square = false,
+    horizontal = false,
+    portrait = false,
+} = Astro.props;
+
+const Tag = href ? "a" : "div";
+const tagProps = href ? { href } : {};
+---
+
+<Tag
+    {...tagProps}
+    class:list={[
+        "card",
+        {
+            "with-title": title,
+            "is-square": square,
+            "is-horizontal": horizontal,
+            "is-portrait": portrait,
+        },
+    ]}
+>
+    <div class="photo-wrapper">
+        <img src={src} alt={alt} loading="lazy" class="photo" />
+    </div>
+    {title && <span class="title">{title} →</span>}
+</Tag>
+
+<style>
+    .card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+        color: inherit;
+        text-decoration: none;
+    }
+    .with-title {
+        gap: 10px;
+    }
+    .photo-wrapper {
+        overflow: hidden;
+        width: 100%;
+        height: 100%;
+        background-color: var(--neutral-color);
+    }
+    .photo {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transform: scale(1);
+        transition: transform 0.4s ease;
+    }
+    .photo-wrapper:hover .photo {
+        transform: scale(1.1);
+    }
+    .is-square .photo {
+        aspect-ratio: 1 / 1;
+    }
+    .is-portrait .photo {
+        aspect-ratio: 3 / 4;
+    }
+    .title {
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        line-height: 1.5;
+    }
+</style>

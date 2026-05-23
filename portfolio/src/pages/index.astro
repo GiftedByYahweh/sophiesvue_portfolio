@@ -1,0 +1,76 @@
+---
+import Default from "../layouts/Default.astro";
+import PhotoCard from "../components/PhotoCard.astro";
+import { getSnapshot, getSettings } from "../lib/portfolio";
+
+const { categories } = await getSnapshot();
+const settings = await getSettings();
+
+const favorites = categories.flatMap((category) =>
+    category.collections
+        .filter((col) => col.isLiked)
+        .map((col) => ({ ...col, categorySlug: category.slug })),
+);
+---
+
+<Default title="Sophiavit || Фотограф Київ" bare>
+    <section
+        class="hero"
+        style={`background-image: url('${settings.mainPhotoLink}')`}
+    >
+        <div class="hero-overlay">
+            <div class="title-block" style={`color: ${settings.mainTitleColor}`}>
+                <h1 class="text-title text-w-400 text-center">
+                    <span class="text-title text-italic text-w-400">SOPHIA</span
+                    > VITINENKO
+                </h1>
+                <p class="text-uppercase text-right">{settings.mainSubTitle}</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="page favorites">
+        <ul class="grid">
+            {
+                favorites.map((col) => (
+                    <li>
+                        <PhotoCard
+                            src={col.photoLink}
+                            alt={col.name}
+                            href={`/portfolio/${col.categorySlug}/${col.slug}`}
+                            title={col.name}
+                            portrait
+                        />
+                    </li>
+                ))
+            }
+        </ul>
+    </section>
+</Default>
+
+<style>
+    .hero {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        background-size: cover;
+        background-position: top center;
+        background-repeat: no-repeat;
+    }
+    .hero-overlay {
+        position: absolute;
+        inset: 0;
+        background: #0f0b0a66;
+        display: grid;
+        place-items: center;
+        padding: 0 20px;
+    }
+    .title-block {
+        display: grid;
+    }
+    .favorites .grid {
+        display: grid;
+        gap: 20px;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    }
+</style>
