@@ -1,5 +1,5 @@
 import type { IncomingMessage, ServerResponse } from 'http';
-import { getApp } from '../server/vercel-start';
+import { getApp } from './vercel-start';
 
 export default async function handler(
   req: IncomingMessage,
