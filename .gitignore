@@ -31,8 +31,6 @@ server/.env
 server/.env.*.local
 server/static/
 
-admin/api/*.mjs
-
 coverage/
 *.test.js.snap
 jest-cache/
