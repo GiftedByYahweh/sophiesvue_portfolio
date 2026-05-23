@@ -1,0 +1,45 @@
+---
+import { ClientRouter } from "astro:transitions";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import "../styles/global.css";
+
+interface Props {
+    title?: string;
+    bare?: boolean;
+}
+
+const { title = "Sophiavit || Фотограф Київ", bare = false } = Astro.props;
+---
+
+<!doctype html>
+<html lang="uk">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="generator" content={Astro.generator} />
+        <link rel="icon" type="image/png" href="/favicon.png" />
+        <link rel="icon" href="/favicon.png" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap"
+            rel="stylesheet"
+        />
+        <title>{title}</title>
+        <ClientRouter />
+    </head>
+    <body>
+        <Header />
+        {
+            bare ? (
+                <slot />
+            ) : (
+                <main class="page">
+                    <slot />
+                </main>
+            )
+        }
+        <Footer />
+    </body>
+</html>

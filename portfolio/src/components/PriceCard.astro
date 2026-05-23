@@ -1,0 +1,208 @@
+---
+import type { PriceItem } from "../lib/types";
+
+interface Props {
+    variants: PriceItem[];
+    reverse?: boolean;
+    border?: boolean;
+}
+
+const { variants, reverse = false, border = false } = Astro.props;
+const first = variants[0];
+const hasMultiple = variants.length > 1;
+const examplesHref = first.categorySlug
+    ? `/portfolio/${first.categorySlug}`
+    : "/portfolio";
+---
+
+<article class:list={["card", { reverse, border, switchable: hasMultiple }]}>
+    <img src={first.photoLink} alt={first.category} class="photo" />
+
+    <div class="content">
+        <div class="info">
+            <header class="head">
+                <span class="text-l text-uppercase">{first.category}</span>
+
+                {
+                    hasMultiple && (
+                        <div class="tabs" role="tablist">
+                            {variants.map((v, i) => (
+                                <button
+                                    type="button"
+                                    data-set={String(i)}
+                                    data-price={`${v.price} грн`}
+                                    class:list={["tab", { active: i === 0 }]}
+                                >
+                                    {v.duration}
+                                </button>
+                            ))}
+                        </div>
+                    )
+                }
+
+                <span class="price-display">{first.price} грн</span>
+            </header>
+
+            {
+                variants.map((v, i) => (
+                    <div
+                        data-variant={String(i)}
+                        class:list={["details", "variant-block", { active: i === 0 }]}
+                    >
+                        {v.description.split("\n").map((t) => <p>◦ {t}</p>)}
+                    </div>
+                ))
+            }
+
+            {
+                variants.map((v, i) => (
+                    <div
+                        data-variant={String(i)}
+                        class:list={["conditions", "variant-block", { active: i === 0 }]}
+                    >
+                        <p class="text-uppercase">Важливо</p>
+                        {v.importantInfo.split("\n").map((t) => <p>◦ {t}</p>)}
+                    </div>
+                ))
+            }
+        </div>
+
+        <a href={examplesHref} class="text-hover">view examples →</a>
+    </div>
+</article>
+
+<style>
+    .card {
+        display: grid;
+        grid-template-columns: minmax(0, 625px) 1fr;
+        grid-template-areas: "photo content";
+        width: 100%;
+        gap: 30px;
+        padding: 50px 0;
+    }
+    .reverse {
+        grid-template-columns: 1fr minmax(0, 625px);
+        grid-template-areas: "content photo";
+    }
+    .border {
+        border-bottom: 1px solid var(--neutral-color);
+    }
+    .photo {
+        aspect-ratio: 1 / 1;
+        width: 100%;
+        object-fit: cover;
+        grid-area: photo;
+    }
+    .content {
+        display: grid;
+        grid-template-rows: 1fr auto;
+        grid-area: content;
+        gap: 30px;
+    }
+    .info {
+        display: grid;
+        grid-auto-rows: max-content;
+        gap: 20px;
+    }
+    .head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+    }
+    .tabs {
+        display: flex;
+        border: 1px solid var(--accent-color);
+        user-select: none;
+    }
+    .tab {
+        padding: 6px 14px;
+        border: none;
+        background: transparent;
+        color: #555;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    .tab.active {
+        background: var(--accent-color);
+        color: var(--primary-color);
+    }
+    .variant-block {
+        display: none;
+    }
+    .variant-block.active {
+        display: grid;
+        grid-auto-rows: max-content;
+        gap: 4px;
+    }
+
+    @media screen and (max-width: 768px) {
+        .card {
+            grid-template-columns: none;
+            grid-template-areas:
+                "photo"
+                "content";
+        }
+        .head {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 12px;
+        }
+        .head .tabs {
+            grid-row: 2;
+            grid-column: 1 / -1;
+            width: 100%;
+        }
+        .head .tab {
+            flex: 1;
+        }
+    }
+</style>
+
+<script>
+    function bindSwitchers() {
+        document
+            .querySelectorAll<HTMLElement>(".card.switchable")
+            .forEach((card) => {
+                if (card.dataset.bound === "1") return;
+                card.dataset.bound = "1";
+
+                card.querySelectorAll<HTMLButtonElement>(".tab").forEach(
+                    (btn) => {
+                        btn.addEventListener("click", () => {
+                            const idx = btn.dataset.set;
+                            if (idx === undefined) return;
+
+                            const priceDisplay =
+                                card.querySelector<HTMLElement>(".price-display");
+                            if (priceDisplay && btn.dataset.price) {
+                                priceDisplay.textContent = btn.dataset.price;
+                            }
+
+                            card.querySelectorAll<HTMLButtonElement>(
+                                ".tab",
+                            ).forEach((b) =>
+                                b.classList.toggle(
+                                    "active",
+                                    b.dataset.set === idx,
+                                ),
+                            );
+
+                            card.querySelectorAll<HTMLElement>(
+                                ".variant-block",
+                            ).forEach((block) =>
+                                block.classList.toggle(
+                                    "active",
+                                    block.dataset.variant === idx,
+                                ),
+                            );
+                        });
+                    },
+                );
+            });
+    }
+
+    bindSwitchers();
+    document.addEventListener("astro:page-load", bindSwitchers);
+</script>

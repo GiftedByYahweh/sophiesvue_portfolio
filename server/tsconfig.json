@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "moduleResolution": "node",
+    "strict": true,
+    "baseUrl": ".",
+    "paths": {
+      "#infrastructure/*": ["./src/infrastructure/*"],
+      "#modules/*": ["./src/modules/*"],
+      "#common/*": ["./src/common/*"],
+      "#utils/*": ["./src/utils/*"],
+      "#filesStorage/*": ["./src/filesStorage/*"],
+    },
+    "allowSyntheticDefaultImports": true,
+    "preserveWatchOutput": true,
+    "allowJs": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+  },
+  "include": ["*", "**/*"],
+}

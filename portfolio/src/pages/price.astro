@@ -1,0 +1,35 @@
+---
+import Default from "../layouts/Default.astro";
+import PriceCard from "../components/PriceCard.astro";
+import { getPrices } from "../lib/portfolio";
+import type { PriceItem } from "../lib/types";
+
+const prices = await getPrices();
+
+const groupMap = new Map<string, PriceItem[]>();
+for (const p of prices) {
+    if (!groupMap.has(p.categoryId)) groupMap.set(p.categoryId, []);
+    groupMap.get(p.categoryId)!.push(p);
+}
+const groups = [...groupMap.values()];
+---
+
+<Default title="Price">
+    <div class="list">
+        {
+            groups.map((variants, index) => (
+                <PriceCard
+                    variants={variants}
+                    reverse={index % 2 !== 0}
+                    border={index !== groups.length - 1}
+                />
+            ))
+        }
+    </div>
+</Default>
+
+<style>
+    .list {
+        display: grid;
+    }
+</style>

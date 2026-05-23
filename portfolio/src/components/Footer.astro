@@ -1,0 +1,92 @@
+---
+import { ROUTES } from "../lib/consts";
+import { getSnapshot, getSettings } from "../lib/portfolio";
+
+const { categories } = await getSnapshot();
+const settings = await getSettings();
+---
+
+<footer class="app-footer">
+    <div class="footer-content">
+        <div class="logo">
+            <img src="/img/logoWhite.svg" alt="" />
+        </div>
+        <nav class="nav-block" aria-label="Footer">
+            <ul>
+                {
+                    categories.map((c) => (
+                        <li>
+                            <a
+                                href={`/portfolio/${c.slug}`}
+                                class="text-primary text-uppercase text-hover"
+                            >
+                                {c.name}
+                            </a>
+                        </li>
+                    ))
+                }
+                <li>
+                    <a
+                        href={ROUTES.about}
+                        class="text-primary text-uppercase text-hover"
+                        >About me</a
+                    >
+                </li>
+                <li>
+                    <a
+                        href={ROUTES.price}
+                        class="text-primary text-uppercase text-hover">Price</a
+                    >
+                </li>
+            </ul>
+            <a
+                href={settings.instLink}
+                target="_blank"
+                rel="noopener"
+                class="text-primary text-hover"
+            >
+                inst →
+            </a>
+        </nav>
+    </div>
+</footer>
+
+<style>
+    .app-footer {
+        background-color: var(--secondary-color);
+        padding: 45px;
+        display: flex;
+        justify-content: center;
+    }
+    .footer-content {
+        width: 100%;
+        max-width: var(--max-content-width);
+        display: flex;
+        justify-content: space-between;
+        gap: 40px;
+    }
+    .nav-block {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        max-width: 250px;
+        color: var(--primary-color);
+    }
+    .nav-block ul {
+        display: grid;
+        gap: 15px;
+    }
+
+    @media screen and (max-width: 800px) {
+        .app-footer {
+            padding: 45px 20px;
+        }
+        .footer-content {
+            flex-direction: column;
+            align-items: start;
+        }
+        .nav-block {
+            max-width: initial;
+        }
+    }
+</style>

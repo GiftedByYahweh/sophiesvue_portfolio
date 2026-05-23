@@ -1,0 +1,69 @@
+---
+import type { GetStaticPaths } from "astro";
+import Default from "../../../layouts/Default.astro";
+import PhotoCard from "../../../components/PhotoCard.astro";
+import Breadcrumb from "../../../components/Breadcrumb.astro";
+import Empty from "../../../components/Empty.astro";
+import { getSnapshot } from "../../../lib/portfolio";
+import type { Category } from "../../../lib/types";
+
+export const getStaticPaths = (async () => {
+    const { categories } = await getSnapshot();
+    return categories.map((category) => ({
+        params: { category: category.slug },
+        props: { category },
+    }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+    category: Category;
+}
+
+const { category } = Astro.props;
+---
+
+<Default title={`${category.name} — Portfolio`}>
+    <Breadcrumb items={[{ label: category.name }]} />
+    {
+        category.collections.length === 0 ? (
+            <Empty message="У цій категорії поки немає колекцій" />
+        ) : (
+            <ul class="grid normal">
+                {category.collections.map((col) => (
+                    <li>
+                        <PhotoCard
+                            src={col.photoLink}
+                            alt={col.name}
+                            href={`/portfolio/${category.slug}/${col.slug}`}
+                            title={col.name}
+                            portrait
+                        />
+                    </li>
+                ))}
+            </ul>
+        )
+    }
+</Default>
+
+<style>
+    .grid {
+        display: grid;
+        gap: 20px;
+        width: 100%;
+    }
+    .normal {
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    }
+    .normal:has(> li:only-child) {
+        grid-template-columns: 1fr;
+        justify-items: center;
+    }
+    .normal > li:only-child {
+        width: 50%;
+    }
+    @media (max-width: 768px) {
+        .normal > li:only-child {
+            width: 100%;
+        }
+    }
+</style>
