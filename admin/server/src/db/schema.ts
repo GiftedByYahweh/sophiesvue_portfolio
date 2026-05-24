@@ -97,7 +97,6 @@ export const albumsTable = pgTable(
   'albums',
   {
     id: uuid('id').primaryKey().defaultRandom(),
-    name: text('name').notNull(),
     photoLink: text('photo_link').notNull(),
     isActive: boolean('is_active').notNull().default(true),
     collectionId: uuid('collection_id')
