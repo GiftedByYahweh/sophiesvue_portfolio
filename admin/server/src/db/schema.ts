@@ -93,19 +93,15 @@ export const collectionsTable = pgTable(
   ],
 );
 
-export const albumsTable = pgTable(
-  'albums',
-  {
-    id: uuid('id').primaryKey().defaultRandom(),
-    photoLink: text('photo_link').notNull(),
-    isActive: boolean('is_active').notNull().default(true),
-    collectionId: uuid('collection_id')
-      .notNull()
-      .references(() => collectionsTable.id, { onDelete: 'restrict' }),
-    sortOrder: integer('sort_order')
-      .notNull()
-      .default(sql`nextval('albums_sort_order_seq')`),
-    type: text('type').notNull().default('normal'),
-  },
-  (t) => [uniqueIndex('albums_collection_slug_idx').on(t.collectionId)],
-);
+export const albumsTable = pgTable('albums', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  photoLink: text('photo_link').notNull(),
+  isActive: boolean('is_active').notNull().default(true),
+  collectionId: uuid('collection_id')
+    .notNull()
+    .references(() => collectionsTable.id, { onDelete: 'restrict' }),
+  sortOrder: integer('sort_order')
+    .notNull()
+    .default(sql`nextval('albums_sort_order_seq')`),
+  type: text('type').notNull().default('normal'),
+});
