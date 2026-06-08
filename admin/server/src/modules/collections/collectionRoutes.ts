@@ -59,7 +59,7 @@ export const collectionRoutes: FastifyPluginCallback<
   app.route<{
     Body: {
       name: string;
-      slug?: string;
+      slug: string;
       categoryId: string;
       photo: UploadFile;
       isLiked?: boolean;

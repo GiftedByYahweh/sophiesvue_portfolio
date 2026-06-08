@@ -6,5 +6,6 @@ export interface CollectionEntity {
   categoryId: string;
   isActive: boolean;
   isLiked: boolean;
+  likedDate?: Date;
   sortOrder?: number;
 }

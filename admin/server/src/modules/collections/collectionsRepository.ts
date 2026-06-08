@@ -51,7 +51,7 @@ export function collectionsRepository(dbProvider: DBProvider) {
       .select()
       .from(collectionsTable)
       .where(eq(collectionsTable.isLiked, true))
-      .orderBy(desc(collectionsTable.sortOrder));
+      .orderBy(desc(collectionsTable.likedDate));
     return rows;
   }
 

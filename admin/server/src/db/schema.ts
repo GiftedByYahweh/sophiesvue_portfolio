@@ -83,6 +83,7 @@ export const collectionsTable = pgTable(
       .notNull()
       .references(() => categoriesTable.id, { onDelete: 'restrict' }),
     isActive: boolean('is_active').notNull().default(true),
+    likedDate: timestamp('liked_date', { withTimezone: true }),
     isLiked: boolean('is_liked').notNull().default(false),
     sortOrder: integer('sort_order')
       .notNull()

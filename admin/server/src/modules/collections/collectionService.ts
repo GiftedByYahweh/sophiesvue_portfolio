@@ -53,6 +53,7 @@ export function collectionService(
       categoryId: payload.categoryId,
       isActive: true,
       isLiked: payload.isLiked ?? false,
+      likedDate: payload.isLiked ? new Date() : undefined,
     });
   }
 
@@ -83,6 +84,7 @@ export function collectionService(
       slug,
       isActive: toBoolean(isActive),
       isLiked: toBoolean(isLiked),
+      likedDate: toBoolean(isLiked) ? new Date() : undefined,
       photoLink: newPhoto ?? collection.photoLink,
     });
     if (newPhoto) await filesStorage.deleteFile(collection.photoLink);
