@@ -6,11 +6,17 @@ import { getSnapshot, getSettings } from "../lib/portfolio";
 const { categories } = await getSnapshot();
 const settings = await getSettings();
 
-const favorites = categories.flatMap((category) =>
-    category.collections
-        .filter((col) => col.isLiked)
-        .map((col) => ({ ...col, categorySlug: category.slug })),
-);
+const favorites = categories
+    .flatMap((category) =>
+        category.collections
+            .filter((col) => col.isLiked)
+            .map((col) => ({ ...col, categorySlug: category.slug })),
+    )
+    .sort(
+        (a, b) =>
+            (b.likedDate ? Date.parse(b.likedDate) : -Infinity) -
+            (a.likedDate ? Date.parse(a.likedDate) : -Infinity),
+    );
 ---
 
 <Default title="Sophia Vitinenko || Фотограф Київ" bare>

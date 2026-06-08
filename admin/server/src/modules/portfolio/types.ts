@@ -10,6 +10,7 @@ export interface PortfolioCollectionDto {
   name: string;
   photoLink: string;
   isLiked: boolean;
+  likedDate: Date | null;
   albums: PortfolioAlbumDto[];
 }
 

@@ -12,6 +12,7 @@ export interface Collection {
   name: string;
   photoLink: string;
   isLiked: boolean;
+  likedDate: string | null;
   albums: Album[];
 }
 

@@ -41,6 +41,7 @@ export function portfolioService(portfolioRepo: PortfolioRepository) {
         name: collection.name,
         photoLink: collection.photoLink,
         isLiked: collection.isLiked,
+        likedDate: collection.likedDate,
         albums: albumsByCollection.get(collection.id) ?? [],
       });
       collectionsByCategory.set(collection.categoryId, list);

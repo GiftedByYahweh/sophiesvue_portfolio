@@ -29,6 +29,7 @@ export function portfolioRepository(dbProvider: DBProvider) {
         name: collectionsTable.name,
         photoLink: collectionsTable.photoLink,
         isLiked: collectionsTable.isLiked,
+        likedDate: collectionsTable.likedDate,
         categoryId: collectionsTable.categoryId,
       })
       .from(collectionsTable)
